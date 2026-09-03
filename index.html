@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Meesho Store</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--primary:#6c3bd1;--bg:#f5f5f5;--card:#fff;--red:#e91e63;--gray:#888}
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{background:var(--bg);min-height:100vh;padding-bottom:60px}
+.header{background:var(--primary);color:#fff;padding:15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
+.header h2{font-size:16px}
+.header span{font-size:11px;background:rgba(255,255,255,0.2);padding:5px 10px;border-radius:20px}
+.search{display:flex;gap:8px;padding:10px 15px}
+.search input{flex:1;padding:12px;border:1px solid #ddd;border-radius:10px;font-size:14px;outline:none;background:#fff}
+.search button{padding:12px 18px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
+.nav{display:flex;background:#fff;padding:8px;gap:5px;margin:0 15px;border-radius:12px;overflow-x:auto}
+.nav-item{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;font-size:12px;color:var(--gray);font-weight:600;white-space:nowrap}
+.nav-item.active{background:var(--primary);color:#fff}
+.page{display:none;padding:15px;padding-bottom:80px}
+.page.active{display:block}
+.products{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.card{background:var(--card);border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.card .name{font-size:12px;font-weight:bold;margin:5px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .price{color:var(--red);font-weight:bold;font-size:15px}
+.card .mrp{text-decoration:line-through;color:var(--gray);font-size:11px}
+.card .rating{font-size:11px;color:#ff9800}
+.card button{width:100%;margin-top:8px;padding:7px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:bold;font-size:12px;cursor:pointer}
+.profile-card{background:#fff;padding:20px;border-radius:12px;text-align:center;margin-bottom:10px}
+.avatar{width:60px;height:60px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;margin:0 auto 10px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;display:none;z-index:999}
+.cart-item{background:#fff;padding:12px;border-radius:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;padding:8px;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:100;gap:5px}
+.bn-item{flex:1;text-align:center;cursor:pointer;font-size:11px;color:var(--gray);padding:5px;border-radius:8px}
+.bn-item.active{background:#f0e6ff;color:var(--primary)}
+.bn-icon{font-size:20px;display:block;margin-bottom:2px}
+.login-box{background:#fff;padding:25px;border-radius:12px;text-align:center;margin:20px 0}
+.login-box input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin:10px 0;font-size:15px;text-align:center;outline:none}
+.login-box button{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-weight:bold;font-size:15px;cursor:pointer}
+.loading{text-align:center;padding:30px;color:var(--gray);grid-column:span 2}
+.order-card{background:#fff;padding:15px;border-radius:12px;margin-bottom:10px}
+.load-more{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="header"><h2>🛍️ Meesho Store</h2><span id="loginStatus">🔒 Guest</span></div>
+<div class="search"><input type="text" id="searchInput" placeholder="🔍 Search anything..." onkeypress="if(event.key==='Enter')searchProducts()"><button onclick="searchProducts()">🔍</button></div>
+<div class="nav">
+<div class="nav-item active" onclick="switchTab('home')">🏠 Home</div>
+<div class="nav-item" onclick="switchTab('login')">📱 Login</div>
+<div class="nav-item" onclick="switchTab('cart')">🛒 Cart</div>
+<div class="nav-item" onclick="switchTab('orders')">📦 Orders</div>
+<div class="nav-item" onclick="switchTab('profile')">👤 Profile</div>
+</div>
+<div class="page active" id="page-home"><div class="products" id="productsGrid"><div class="loading">Loading...</div></div><button class="load-more" id="loadMoreBtn" onclick="loadMore()" style="display:none">Load More ⬇️</button></div>
+<div class="page" id="page-login">
+<div class="login-box" id="loginForm"><h3>📱 Login</h3><input type="tel" id="phoneInput" placeholder="10 digit number" maxlength="10"><button onclick="sendOTP()">Send OTP</button></div>
+<div class="login-box" id="otpForm" style="display:none"><h3>🔐 OTP</h3><input type="text" id="otpInput" placeholder="OTP" maxlength="6"><button onclick="verifyOTP()">Verify & Login</button></div>
+</div>
+<div class="page" id="page-cart"><div id="cartContent"><div class="loading">Cart empty</div></div></div>
+<div class="page" id="page-orders"><div id="ordersContent"><div class="loading">No orders</div></div></div>
+<div class="page" id="page-profile"><div id="profileContent"></div></div>
+<div class="bottom-nav">
+<div class="bn-item active" onclick="switchTab('home')"><span class="bn-icon">🏠</span>Home</div>
+<div class="bn-item" onclick="switchTab('login')"><span class="bn-icon">📱</span>Login</div>
+<div class="bn-item" onclick="switchTab('cart')"><span class="bn-icon">🛒</span>Cart</div>
+<div class="bn-item" onclick="switchTab('orders')"><span class="bn-icon">📦</span>Orders</div>
+<div class="bn-item" onclick="switchTab('profile')"><span class="bn-icon">👤</span>Profile</div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const tg=window.Telegram.WebApp;tg.ready();tg.expand();
+const API_URL="https://meesho-server-production.up.railway.app/api/search";
+let accountData=JSON.parse(localStorage.getItem('meesho_account')||'null');
+let cartData=JSON.parse(localStorage.getItem('meesho_cart')||'[]');
+let ordersData=JSON.parse(localStorage.getItem('meesho_orders')||'[]');
+let currentQuery='trending';let currentPage=1;let allProducts=[];let phoneNumber=null;
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2000)}
+function switchTab(tab){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.querySelectorAll('.bn-item').forEach(n=>n.classList.remove('active'));document.getElementById('page-'+tab).classList.add('active');const tabs=['home','login','cart','orders','profile'];const i=tabs.indexOf(tab);if(i>=0){document.querySelectorAll('.nav-item')[i].classList.add('active');document.querySelectorAll('.bn-item')[i].classList.add('active')}if(tab==='profile')renderProfile();if(tab==='cart')renderCart();if(tab==='orders')renderOrders()}
+function updateLoginStatus(){document.getElementById('loginStatus').textContent=accountData?'✅ +91'+accountData.phone:'🔒 Guest'}
+function fetchProducts(query,page=1){const grid=document.getElementById('productsGrid');grid.innerHTML='<div class="loading">Loading...</div>';fetch(API_URL+'?q='+encodeURIComponent(query)+'&page='+page+'&limit=20').then(r=>r.json()).then(data=>{if(data.ok&&data.products.length>0){if(page===1)allProducts=[];allProducts=allProducts.concat(data.products);renderProducts(allProducts);document.getElementById('loadMoreBtn').style.display=data.has_next?'block':'none';currentPage=page}else{grid.innerHTML='<div class="loading">No products found</div>';document.getElementById('loadMoreBtn').style.display='none'}}).catch(err=>{grid.innerHTML='<div class="loading">Error. Server check karo.</div>'})}
+function renderProducts(list){const grid=document.getElementById('productsGrid');grid.innerHTML=list.map(p=>'<div class="card"><div class="name">'+p.name+'</div><div class="price">₹'+p.price+' <span class="mrp">₹'+p.mrp+'</span></div><div class="rating">⭐ '+(p.rating||'N/A')+'</div><button onclick="addToCart(\''+p.id+'\',\''+p.name.replace(/'/g,'')+'\','+p.price+')">Add</button></div>').join('')}
+function searchProducts(){currentQuery=document.getElementById('searchInput').value.trim()||'trending';currentPage=1;fetchProducts(currentQuery,1)}
+function loadMore(){fetchProducts(currentQuery,currentPage+1)}
+function addToCart(id,name,price){const e=cartData.find(c=>c.id===id);if(e)e.quantity++;else cartData.push({id:id,name:name,price:price,quantity:1});localStorage.setItem('meesho_cart',JSON.stringify(cartData));showToast('✅ '+name)}
+function renderCart(){const c=document.getElementById('cartContent');if(cartData.length===0){c.innerHTML='<div class="loading">Cart empty</div>';return}let total=0;c.innerHTML=cartData.map(i=>{total+=i.price*i.quantity;return '<div class="cart-item"><div>'+i.name+'<br><small>₹'+i.price+' x '+i.quantity+'</small></div><strong>₹'+(i.price*i.quantity)+'</strong></div>'}).join('')+'<div class="cart-item"><strong>Total</strong><strong>₹'+total+'</strong></div><button onclick="checkout()" style="width:100%;padding:15px;background:#6c3bd1;color:#fff;border:none;border-radius:10px;font-weight:bold;font-size:16px;margin-top:10px;cursor:pointer">Place Order (₹'+total+')</button>'}
+function checkout(){if(!accountData){showToast('❌ Login karo');switchTab('profile');return}const order={id:Date.now(),items:cartData,total:cartData.reduce((s,i)=>s+i.price*i.quantity,0),phone:accountData.phone,status:'Confirmed',date:new Date().toLocaleString()};ordersData.push(order);localStorage.setItem('meesho_orders',JSON.stringify(ordersData));cartData=[];localStorage.removeItem('meesho_cart');showToast('✅ Order placed!');switchTab('orders')}
+function renderOrders(){const c=document.getElementById('ordersContent');if(ordersData.length===0){c.innerHTML='<div class="loading">No orders</div>';return}c.innerHTML=ordersData.map(o=>'<div class="order-card"><div style="display:flex;justify-content:space-between"><strong>#'+o.id+'</strong><span style="color:#4caf50;font-weight:600">✅ '+o.status+'</span></div><div style="font-size:12px;color:#888;margin:5px 0">'+o.date+'</div><div style="font-size:13px">'+o.items.length+' items | ₹'+o.total+'</div><div style="font-size:12px;color:#888">📱 +91'+o.phone+'</div></div>').join('')}
+function sendOTP(){const ph=document.getElementById('phoneInput').value.trim();if(ph.length!==10){showToast('❌ 10 digit');return}phoneNumber=ph;tg.sendData(JSON.stringify({action:'send_otp',phone:ph}));document.getElementById('loginForm').style.display='none';document.getElementById('otpForm').style.display='block';showToast('📱 OTP bheja')}
+function verifyOTP(){const otp=document.getElementById('otpInput').value.trim();if(otp.length<4){showToast('❌ OTP');return}accountData={phone:phoneNumber,user_id:'u'+Date.now()};localStorage.setItem('meesho_account',JSON.stringify(accountData));updateLoginStatus();document.getElementById('loginForm').style.display='block';document.getElementById('otpForm').style.display='none';showToast('✅ Login!');switchTab('home')}
+function renderProfile(){const c=document.getElementById('profileContent');if(accountData){c.innerHTML='<div class="profile-card"><div class="avatar">'+accountData.phone[0]+'</div><h3>+91'+accountData.phone+'</h3><p style="color:#6c3bd1;font-weight:600">✅ Logged In</p><p style="color:#888;font-size:12px">ID: '+accountData.user_id+'</p><button onclick="logout()" style="margin-top:15px;padding:10px 20px;background:#f44336;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer">Logout</button></div>'}else{c.innerHTML='<div class="profile-card"><div class="avatar">👤</div><h3>Guest</h3><button onclick="switchTab(\'login\')" style="margin-top:15px;padding:10px 20px;background:#6c3bd1;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer">📱 Login</button></div>'}}
+function logout(){accountData=null;localStorage.removeItem('meesho_account');updateLoginStatus();renderProfile();showToast('Logged out')}
+updateLoginStatus();fetchProducts('trending',1);
+</script>
+</body>
+</html>
