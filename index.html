@@ -6,58 +6,47 @@
 <title>Meesho Store</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--primary:#9c27b0;--primary-dark:#6c3bd1;--bg:#f8f5ff;--card:#fff;--red:#e91e63;--gray:#888;--gold:#ff9800;--green:#4caf50}
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+:root{--p:#9c27b0;--d:#6c3bd1;--bg:#f8f5ff;--c:#fff;--r:#e91e63;--g:#888;--gold:#ff9800;--gr:#4caf50}
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
 body{background:var(--bg);min-height:100vh;padding-bottom:70px}
-.header{background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;padding:15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(108,59,209,0.4)}
+.header{background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;padding:15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
 .header h2{font-size:17px;font-weight:800}
-.header .status{font-size:11px;background:rgba(255,255,255,0.25);padding:5px 12px;border-radius:20px;font-weight:600}
-.search{display:flex;gap:8px;padding:12px 15px}
-.search input{flex:1;padding:13px 18px;border:2px solid #e0d5f5;border-radius:30px;font-size:14px;outline:none;background:#fff;transition:all 0.3s}
-.search input:focus{border-color:var(--primary)}
-.search button{padding:13px 22px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:30px;font-weight:700;cursor:pointer}
-.nav{display:flex;background:#fff;padding:8px;gap:5px;margin:0 15px;border-radius:15px;overflow-x:auto;box-shadow:0 2px 15px rgba(0,0,0,0.06)}
-.nav-item{flex:1;padding:10px;text-align:center;border-radius:10px;cursor:pointer;font-size:11px;color:var(--gray);font-weight:600;white-space:nowrap;transition:all 0.3s;position:relative}
-.nav-item.active{background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;box-shadow:0 4px 12px rgba(108,59,209,0.3)}
-.nav-item .badge{position:absolute;top:2px;right:8px;background:#f44336;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:10px;display:none}
+.header span{font-size:11px;background:rgba(255,255,255,0.25);padding:5px 12px;border-radius:20px;font-weight:600}
+.search{display:flex;gap:8px;padding:10px 15px}
+.search input{flex:1;padding:12px 15px;border:2px solid #e0d5f5;border-radius:25px;font-size:14px;outline:none;background:#fff}
+.search button{padding:12px 20px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:25px;font-weight:700;cursor:pointer}
+.nav{display:flex;background:#fff;padding:8px;gap:5px;margin:0 15px;border-radius:15px;overflow-x:auto}
+.nav-item{flex:1;padding:10px;text-align:center;border-radius:10px;cursor:pointer;font-size:11px;color:var(--g);font-weight:600;white-space:nowrap}
+.nav-item.active{background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff}
 .page{display:none;padding:15px;padding-bottom:80px}
-.page.active{display:block;animation:fadeIn 0.4s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.page.active{display:block}
+.offer-banner{background:linear-gradient(135deg,#ff9800,#ff5722);color:#fff;padding:20px;border-radius:15px;margin-bottom:15px;text-align:center;cursor:pointer}
+.offer-banner h3{font-size:20px;font-weight:800}
+.offer-banner p{font-size:12px;margin-top:5px;opacity:0.9}
 .products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:var(--card);border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.08);transition:transform 0.3s;cursor:pointer;animation:cardIn 0.5s ease}
-@keyframes cardIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
-.card:active{transform:scale(0.95)}
-.card .img{width:100%;height:170px;object-fit:cover;background:#f0e6ff}
+.card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
+.card img{width:100%;height:160px;object-fit:cover;background:#f0e6ff}
 .card .info{padding:12px}
-.card .name{font-size:12px;font-weight:700;margin:5px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#333}
-.card .price{color:var(--red);font-weight:800;font-size:16px}
-.card .mrp{text-decoration:line-through;color:var(--gray);font-size:11px}
-.card .discount{background:#e8f5e9;color:#4caf50;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:800}
-.card .rating{font-size:11px;color:var(--gold);font-weight:700}
-.card .delivery{font-size:10px;color:var(--green);font-weight:600;margin-top:2px}
-.card button{width:100%;margin-top:8px;padding:9px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.3s}
-.card button:active{transform:scale(0.93)}
-.card button.added{background:#4caf50}
-.profile-card{background:#fff;padding:25px;border-radius:20px;text-align:center;margin-bottom:12px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
-.avatar{width:75px;height:75px;border-radius:50%;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 15px;font-weight:800}
-.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 25px;border-radius:30px;font-size:13px;display:none;z-index:999}
-.cart-item{background:#fff;padding:14px;border-radius:15px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
-.remove-btn{background:#f44336;color:#fff;border:none;border-radius:50%;width:30px;height:30px;font-weight:800;cursor:pointer;font-size:14px}
-.qty-btn{background:#f0e6ff;color:#6c3bd1;border:none;border-radius:50%;width:28px;height:28px;font-weight:800;cursor:pointer;font-size:14px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;padding:8px;box-shadow:0 -4px 20px rgba(0,0,0,0.1);z-index:100;gap:5px}
-.bn-item{flex:1;text-align:center;cursor:pointer;font-size:10px;color:var(--gray);padding:5px;border-radius:10px;transition:all 0.3s;position:relative}
-.bn-item.active{background:#f0e6ff;color:var(--primary);font-weight:700}
-.bn-icon{font-size:22px;display:block;margin-bottom:2px}
-.bn-item .badge{position:absolute;top:0;right:15%;background:#f44336;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:10px;display:none}
-.login-box{background:#fff;padding:30px;border-radius:20px;text-align:center;margin:20px 0;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+.card .name{font-size:12px;font-weight:700;margin:5px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .price{color:#e91e63;font-weight:800;font-size:16px}
+.card .mrp{text-decoration:line-through;color:#888;font-size:11px}
+.card .rating{font-size:11px;color:#ff9800}
+.card button{width:100%;margin-top:8px;padding:9px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer}
+.login-box{background:#fff;padding:25px;border-radius:20px;text-align:center;margin:15px 0;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
+.login-box h3{margin-bottom:10px}
 .login-box input{width:100%;padding:14px;border:2px solid #e0d5f5;border-radius:12px;margin:10px 0;font-size:16px;text-align:center;outline:none}
 .login-box button{width:100%;padding:14px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer}
-.loading{text-align:center;padding:30px;color:var(--gray);grid-column:span 2}
-.order-card{background:#fff;padding:15px;border-radius:15px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
-.load-more{width:100%;padding:14px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:15px;font-weight:700;cursor:pointer;margin-top:12px}
-.empty-state{text-align:center;padding:40px 20px;color:var(--gray)}
+.cart-item{background:#fff;padding:14px;border-radius:15px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;padding:8px;box-shadow:0 -4px 15px rgba(0,0,0,0.1);gap:5px;z-index:100}
+.bn-item{flex:1;text-align:center;cursor:pointer;font-size:10px;color:#888;padding:5px;border-radius:10px}
+.bn-item.active{background:#f0e6ff;color:#6c3bd1;font-weight:700}
+.bn-icon{font-size:22px;display:block}
+.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 25px;border-radius:30px;font-size:13px;display:none;z-index:999}
+.loading{text-align:center;padding:30px;color:#888;grid-column:span 2}
+.empty-state{text-align:center;padding:40px;color:#888}
 .empty-state .icon{font-size:60px;margin-bottom:15px}
-.payment-box{background:#fff;padding:20px;border-radius:15px;margin:10px 0;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
+.order-card{background:#fff;padding:15px;border-radius:15px;margin-bottom:10px}
+.account-card{background:#fff;padding:15px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border:2px solid #ddd}
 </style>
 </head>
 <body>
@@ -65,23 +54,37 @@ body{background:var(--bg);min-height:100vh;padding-bottom:70px}
 <div class="search"><input type="text" id="searchInput" placeholder="🔍 Search..." onkeypress="if(event.key==='Enter')searchProducts()"><button onclick="searchProducts()">🔍</button></div>
 <div class="nav">
 <div class="nav-item active" onclick="switchTab('home')">🏠 Home</div>
+<div class="nav-item" onclick="switchTab('offer')">🎯 Offer</div>
 <div class="nav-item" onclick="switchTab('login')">📱 Login</div>
-<div class="nav-item" onclick="switchTab('accounts')">👥 Accounts<span id="accountCount" style="display:none"></span></div>
-<div class="nav-item" onclick="switchTab('cart')">🛒 Cart<span class="badge" id="cartBadge"></span></div>
+<div class="nav-item" onclick="switchTab('accounts')">👥 Accounts</div>
+<div class="nav-item" onclick="switchTab('cart')">🛒 Cart</div>
 <div class="nav-item" onclick="switchTab('orders')">📦 Orders</div>
 <div class="nav-item" onclick="switchTab('profile')">👤 Profile</div>
 </div>
-<div class="page active" id="page-home"><div class="products" id="productsGrid"><div class="loading">Loading...</div></div><button class="load-more" id="loadMoreBtn" onclick="loadMore()" style="display:none">Load More</button></div>
+
+<div class="page active" id="page-home">
+<div class="offer-banner" onclick="switchTab('offer')"><h3>🎯 Check First Order Offer</h3><p>Tap to see exclusive discount!</p></div>
+<div class="products" id="productsGrid"><div class="loading">Loading...</div></div>
+<button id="loadMoreBtn" onclick="loadMore()" style="display:none;width:100%;padding:14px;background:#6c3bd1;color:#fff;border:none;border-radius:15px;font-weight:700;margin-top:12px;cursor:pointer">Load More</button>
+</div>
+
+<div class="page" id="page-offer">
+<div class="login-box"><h3>🎯 First Order Offer</h3><div id="offerContent"><p style="color:#888">Checking...</p></div></div>
+</div>
+
 <div class="page" id="page-login">
-<div class="login-box" id="loginForm"><h3>📱 Login</h3><input type="tel" id="phoneInput" placeholder="10 digit" maxlength="10"><button onclick="sendOTP()">Send OTP</button></div>
+<div class="login-box" id="loginForm"><h3>📱 Login</h3><p style="font-size:12px;color:#888">Referral auto-applied ✅</p><input type="tel" id="phoneInput" placeholder="10 digit" maxlength="10"><button onclick="sendOTP()">Send OTP</button></div>
 <div class="login-box" id="otpForm" style="display:none"><h3>🔐 OTP</h3><input type="text" id="otpInput" placeholder="OTP" maxlength="6"><button onclick="verifyOTP()">Verify</button></div>
 </div>
+
 <div class="page" id="page-accounts"><div id="accountsContent"></div></div>
 <div class="page" id="page-cart"><div id="cartContent"></div></div>
 <div class="page" id="page-orders"><div id="ordersContent"></div></div>
 <div class="page" id="page-profile"><div id="profileContent"></div></div>
+
 <div class="bottom-nav">
 <div class="bn-item active" onclick="switchTab('home')"><span class="bn-icon">🏠</span>Home</div>
+<div class="bn-item" onclick="switchTab('offer')"><span class="bn-icon">🎯</span>Offer</div>
 <div class="bn-item" onclick="switchTab('login')"><span class="bn-icon">📱</span>Login</div>
 <div class="bn-item" onclick="switchTab('accounts')"><span class="bn-icon">👥</span>Accounts</div>
 <div class="bn-item" onclick="switchTab('cart')"><span class="bn-icon">🛒</span>Cart</div>
@@ -89,10 +92,12 @@ body{background:var(--bg);min-height:100vh;padding-bottom:70px}
 <div class="bn-item" onclick="switchTab('profile')"><span class="bn-icon">👤</span>Profile</div>
 </div>
 <div class="toast" id="toast"></div>
+
 <script>
 const tg=window.Telegram.WebApp;tg.ready();tg.expand();
 const API_URL="https://meesho-server-production.up.railway.app/api/search";
 const SERVER_URL="https://meesho-server-production.up.railway.app";
+const REFERRAL_LINK="https://app.meesho.com/2yoV/r99th0qd?via=67rz9r&from=home_page_pill";
 let tgUser=tg.initDataUnsafe?.user;
 let tgUserId=tgUser?'u'+tgUser.id:'guest';
 let accountData=JSON.parse(localStorage.getItem('meesho_current_account')||'null');
@@ -102,19 +107,23 @@ let ordersData=JSON.parse(localStorage.getItem('meesho_orders')||'[]');
 let currentQuery='trending';let currentPage=1;let allProducts=[];let phoneNumber=null;
 
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2000)}
-function updateCartBadge(){const count=cartData.reduce((s,i)=>s+i.quantity,0);document.querySelectorAll('.badge').forEach(b=>{if(count>0){b.textContent=count;b.style.display='block';}else{b.style.display='none';}})}
-function updateAccountBadge(){const count=allAccounts.length;const b=document.getElementById('accountCount');if(b){b.textContent=count;b.style.display=count>0?'inline-block':'none';}}
-
-function switchTab(tab){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-document.querySelectorAll('.bn-item').forEach(n=>n.classList.remove('active'));
-document.getElementById('page-'+tab).classList.add('active');
-const tabs=['home','login','accounts','cart','orders','profile'];const i=tabs.indexOf(tab);
-if(i>=0){document.querySelectorAll('.nav-item')[i].classList.add('active');document.querySelectorAll('.bn-item')[i].classList.add('active')}
-if(tab==='profile')renderProfile();if(tab==='accounts')renderAccounts();if(tab==='cart')renderCart();if(tab==='orders')renderOrders();
-}
+function switchTab(tab){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.querySelectorAll('.bn-item').forEach(n=>n.classList.remove('active'));document.getElementById('page-'+tab).classList.add('active');const tabs=['home','offer','login','accounts','cart','orders','profile'];const i=tabs.indexOf(tab);if(i>=0){document.querySelectorAll('.nav-item')[i].classList.add('active');document.querySelectorAll('.bn-item')[i].classList.add('active')}if(tab==='offer')checkOffer();if(tab==='profile')renderProfile();if(tab==='accounts')renderAccounts();if(tab==='cart')renderCart();if(tab==='orders')renderOrders();}
 function updateLoginStatus(){document.getElementById('loginStatus').textContent=accountData?'✅ '+accountData.phone:'🔒 Guest'}
+
+function checkOffer(){
+const c=document.getElementById('offerContent');
+c.innerHTML='<p style="color:#888">🔄 Checking...</p>';
+fetch(SERVER_URL+'/api/offer').then(r=>r.json()).then(d=>{
+if(d.ok){
+c.innerHTML='<div style="background:#f0e6ff;padding:20px;border-radius:15px"><h2 style="color:#6c3bd1;font-size:24px">🎉 Upto ₹'+d.bucket+' OFF</h2><p style="font-size:13px;margin:10px 0">First order offer ready!</p><p style="font-size:12px;color:#888">Referral: ✅ Auto-applied</p><button onclick="useOffer()" style="width:100%;padding:12px;background:#6c3bd1;color:#fff;border:none;border-radius:10px;font-weight:700;margin-top:10px;cursor:pointer">✅ Use This Offer</button><button onclick="checkOffer()" style="width:100%;padding:12px;background:#eee;color:#555;border:none;border-radius:10px;font-weight:600;margin-top:5px;cursor:pointer">🔄 Try Another</button></div>';
+}else{c.innerHTML='<p>❌ No offer found</p>';}
+}).catch(()=>{c.innerHTML='<p>❌ Server error</p>';});
+}
+
+function useOffer(){
+if(!accountData){showToast('📱 Pehle login karo');switchTab('login');return;}
+showToast('✅ Offer applied!');switchTab('home');
+}
 
 function fetchProducts(query,page=1){
 const grid=document.getElementById('productsGrid');
@@ -126,90 +135,57 @@ allProducts=allProducts.concat(data.products);
 renderProducts(allProducts);
 document.getElementById('loadMoreBtn').style.display=data.has_next?'block':'none';
 currentPage=page;
-}else{
-grid.innerHTML='<div class="empty-state"><div class="icon">😕</div>No products</div>';
-document.getElementById('loadMoreBtn').style.display='none';
-}
-}).catch(err=>{grid.innerHTML='<div class="empty-state"><div class="icon">⚠️</div>Server error</div>'});
+}else{grid.innerHTML='<div class="empty-state"><div class="icon">😕</div>No products</div>';document.getElementById('loadMoreBtn').style.display='none';}
+}).catch(()=>{grid.innerHTML='<div class="empty-state"><div class="icon">⚠️</div>Server error</div>'});
 }
 
 function renderProducts(list){
 const grid=document.getElementById('productsGrid');
 grid.innerHTML=list.map(p=>{
 const discount=Math.round((1-p.price/p.mrp)*100);
-const inCart=cartData.find(c=>c.id===p.id);
-return '<div class="card"><img class="img" src="'+p.image+'" onerror="this.src=\'https://picsum.photos/300/400?random='+Math.floor(Math.random()*100)+'\'"><div class="info"><div class="name">'+p.name+'</div><div><span class="price">₹'+p.price+'</span> <span class="mrp">₹'+p.mrp+'</span> '+(discount>0?'<span class="discount">'+discount+'% OFF</span>':'')+'</div><div class="rating">⭐ '+p.rating+'</div><div class="delivery">🚚 Free Delivery</div><button class="'+(inCart?'added':'')+'" onclick="addToCart(\''+p.id+'\',\''+p.name.replace(/'/g,'')+'\','+p.price+',\''+p.image+'\')">'+(inCart?'✅ Added':'🛒 Add to Cart')+'</button></div></div>';
+return '<div class="card"><img src="'+p.image+'" onerror="this.src=\'https://picsum.photos/300/400?random='+Math.floor(Math.random()*100)+'\'"><div class="info"><div class="name">'+p.name+'</div><div><span class="price">₹'+p.price+'</span> <span class="mrp">₹'+p.mrp+'</span> '+(discount>0?'<span style="color:#4caf50;font-size:10px;font-weight:700">'+discount+'% OFF</span>':'')+'</div><div class="rating">⭐ '+p.rating+'</div><button onclick="addToCart(\''+p.id+'\',\''+p.name.replace(/'/g,'')+'\','+p.price+')">🛒 Add</button></div></div>';
 }).join('');
 }
 
 function searchProducts(){currentQuery=document.getElementById('searchInput').value.trim()||'trending';currentPage=1;fetchProducts(currentQuery,1)}
 function loadMore(){fetchProducts(currentQuery,currentPage+1)}
 
-function addToCart(id,name,price,image){
+function addToCart(id,name,price){
 const e=cartData.find(c=>c.id===id);
-if(e){e.quantity++;}else{cartData.push({id:id,name:name,price:price,image:image,quantity:1});}
+if(e){e.quantity++;}else{cartData.push({id,name,price,quantity:1});}
 localStorage.setItem('meesho_cart',JSON.stringify(cartData));
-updateCartBadge();renderProducts(allProducts);
-showToast('✅ '+name+' added!');
-}
-
-function removeFromCart(id){
-cartData=cartData.filter(c=>c.id!==id);
-localStorage.setItem('meesho_cart',JSON.stringify(cartData));
-updateCartBadge();renderCart();showToast('🗑️ Removed');
-}
-
-function updateQty(id,delta){
-const item=cartData.find(c=>c.id===id);
-if(item){item.quantity+=delta;if(item.quantity<=0){removeFromCart(id);return;}
-localStorage.setItem('meesho_cart',JSON.stringify(cartData));updateCartBadge();renderCart();}
+showToast('✅ '+name);
 }
 
 function renderCart(){
 const c=document.getElementById('cartContent');
 if(cartData.length===0){c.innerHTML='<div class="empty-state"><div class="icon">🛒</div>Cart empty</div>';return}
 let total=0;
-c.innerHTML=cartData.map(i=>{total+=i.price*i.quantity;
-return '<div class="cart-item"><div style="flex:1"><strong style="font-size:12px">'+i.name+'</strong><div style="font-size:12px;color:#e91e63;font-weight:700">₹'+i.price+'</div><div style="display:flex;align-items:center;gap:8px"><button class="qty-btn" onclick="updateQty(\''+i.id+'\',-1)">−</button><span style="font-weight:700">'+i.quantity+'</span><button class="qty-btn" onclick="updateQty(\''+i.id+'\',1)">+</button></div></div><div style="text-align:right"><strong>₹'+(i.price*i.quantity)+'</strong><br><button class="remove-btn" onclick="removeFromCart(\''+i.id+'\')">✕</button></div></div>';
-}).join('')+'<div class="cart-item" style="background:#f0e6ff"><strong>Total</strong><strong style="color:#6c3bd1;font-size:18px">₹'+total+'</strong></div><button onclick="checkout()" style="width:100%;padding:15px;background:#6c3bd1;color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;margin-top:10px;cursor:pointer">🛍️ Checkout</button>';
+c.innerHTML=cartData.map(i=>{total+=i.price*i.quantity;return '<div class="cart-item"><div><strong>'+i.name+'</strong><br><small>₹'+i.price+' x '+i.quantity+'</small></div><div style="text-align:right"><strong>₹'+(i.price*i.quantity)+'</strong><br><button onclick="removeFromCart(\''+i.id+'\')" style="background:#f44336;color:#fff;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;margin-top:5px">✕</button></div></div>';}).join('')+'<div class="cart-item" style="background:#f0e6ff"><strong>Total</strong><strong style="color:#6c3bd1">₹'+total+'</strong></div><button onclick="checkout()" style="width:100%;padding:15px;background:#6c3bd1;color:#fff;border:none;border-radius:12px;font-weight:700;margin-top:10px;cursor:pointer">Place Order</button>';
 }
+
+function removeFromCart(id){cartData=cartData.filter(c=>c.id!==id);localStorage.setItem('meesho_cart',JSON.stringify(cartData));renderCart();}
 
 function checkout(){
-if(!accountData){showToast('❌ Login karo');switchTab('profile');return}
-const subtotal=cartData.reduce((s,i)=>s+i.price*i.quantity,0);
-const deliveryFee=subtotal<500?50:0;const codFee=20;const upiDiscount=Math.round(subtotal*0.1);
-const codTotal=subtotal+deliveryFee+codFee;const upiTotal=subtotal+deliveryFee-upiDiscount;
-const c=document.getElementById('cartContent');
-c.innerHTML='<div class="payment-box"><div class="row"><span>Subtotal</span><span>₹'+subtotal+'</span></div><div class="row"><span>Delivery</span><span>'+(deliveryFee===0?'FREE':'₹'+deliveryFee)+'</span></div></div><div class="payment-box" style="border:2px solid #9c27b0"><div class="row"><span>UPI Discount</span><span>-₹'+upiDiscount+'</span></div><div class="row"><strong>Total</strong><strong>₹'+upiTotal+'</strong></div><button onclick="payUPI('+upiTotal+')" style="width:100%;padding:14px;background:#6c3bd1;color:#fff;border:none;border-radius:12px;font-weight:700;font-size:15px;margin-top:10px;cursor:pointer">📱 Pay ₹'+upiTotal+'</button></div><div class="payment-box" style="border:2px solid #ff9800"><div class="row"><span>COD Fee</span><span>₹'+codFee+'</span></div><div class="row"><strong>Total</strong><strong>₹'+codTotal+'</strong></div><button onclick="placeCOD('+codTotal+')" style="width:100%;padding:14px;background:#ff9800;color:#fff;border:none;border-radius:12px;font-weight:700;font-size:15px;margin-top:10px;cursor:pointer">💵 COD ₹'+codTotal+'</button></div>';
-}
-
-function payUPI(amount){
-const upiLink='upi://pay?pa=merchant@upi&pn=Meesho Store&am='+amount+'&cu=INR';
-tg.openLink(upiLink);
-const order={id:Date.now(),items:cartData,total:amount,phone:accountData.phone,status:'⏳ Pending',date:new Date().toLocaleString('en-IN'),payment:'UPI'};
+if(!accountData){showToast('📱 Login karo');switchTab('login');return;}
+const total=cartData.reduce((s,i)=>s+i.price*i.quantity,0);
+const order={id:Date.now(),items:cartData,total:total,phone:accountData.phone,status:'✅ Confirmed',date:new Date().toLocaleString(),payment:'COD'};
 ordersData.push(order);localStorage.setItem('meesho_orders',JSON.stringify(ordersData));
-cartData=[];localStorage.removeItem('meesho_cart');updateCartBadge();
-showToast('📱 UPI app khul raha...');setTimeout(()=>{switchTab('orders');},2000);
-}
-
-function placeCOD(total){
-const order={id:Date.now(),items:cartData,total:total,phone:accountData.phone,status:'✅ Confirmed',date:new Date().toLocaleString('en-IN'),payment:'COD'};
-ordersData.push(order);localStorage.setItem('meesho_orders',JSON.stringify(ordersData));
-cartData=[];localStorage.removeItem('meesho_cart');updateCartBadge();
+cartData=[];localStorage.removeItem('meesho_cart');
 showToast('🎉 Order placed!');switchTab('orders');
 }
 
 function renderOrders(){
 const c=document.getElementById('ordersContent');
 if(ordersData.length===0){c.innerHTML='<div class="empty-state"><div class="icon">📦</div>No orders</div>';return}
-c.innerHTML=ordersData.map(o=>'<div class="order-card"><div style="display:flex;justify-content:space-between"><strong>#'+o.id.toString().slice(-6)+'</strong><span style="color:'+(o.payment==='COD'?'#4caf50':'#ff9800')+';font-weight:700">'+o.status+'</span></div><div style="font-size:12px;color:#888">'+o.date+'</div><div style="font-size:13px;font-weight:600">'+o.items.length+' items | ₹'+o.total+'</div><div style="font-size:11px;color:#888">💳 '+o.payment+' | 📱 +91'+o.phone+'</div></div>').join('');
+c.innerHTML=ordersData.map(o=>'<div class="order-card"><div style="display:flex;justify-content:space-between"><strong>#'+o.id.toString().slice(-6)+'</strong><span style="color:#4caf50;font-weight:700">'+o.status+'</span></div><div style="font-size:12px;color:#888">'+o.date+'</div><div style="font-size:13px">'+o.items.length+' items | ₹'+o.total+'</div></div>').join('');
 }
 
 function sendOTP(){
 const ph=document.getElementById('phoneInput').value.trim();
 if(ph.length!==10||!ph.match(/^\d+$/)){showToast('❌ 10 digit');return}
 phoneNumber=ph;
-tg.sendData(JSON.stringify({action:'send_otp',phone:ph}));
+tg.sendData(JSON.stringify({action:'send_otp',phone:ph,referral:REFERRAL_LINK}));
 document.getElementById('loginForm').style.display='none';
 document.getElementById('otpForm').style.display='block';
 showToast('📱 OTP bheja');
@@ -218,20 +194,20 @@ showToast('📱 OTP bheja');
 function verifyOTP(){
 const otp=document.getElementById('otpInput').value.trim();
 if(otp.length<4){showToast('❌ OTP');return}
-accountData={phone:phoneNumber,user_id:tgUserId,login_time:new Date().toLocaleString('en-IN')};
+accountData={phone:phoneNumber,user_id:tgUserId,login_time:new Date().toLocaleString(),referral:REFERRAL_LINK};
 allAccounts.push(accountData);
 localStorage.setItem('meesho_current_account',JSON.stringify(accountData));
 localStorage.setItem('meesho_all_accounts',JSON.stringify(allAccounts));
-fetch(SERVER_URL+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:phoneNumber,user_id:tgUserId})});
-updateLoginStatus();updateAccountBadge();
+fetch(SERVER_URL+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:phoneNumber,user_id:tgUserId,referral:REFERRAL_LINK})});
+updateLoginStatus();
 document.getElementById('loginForm').style.display='block';
 document.getElementById('otpForm').style.display='none';
-showToast('✅ Login!');switchTab('home');
+showToast('✅ Login! Referral applied');switchTab('home');
 }
 
 function loadAccountsFromBackend(){
 fetch(SERVER_URL+'/api/accounts?user_id='+tgUserId).then(r=>r.json()).then(d=>{
-if(d.ok&&d.accounts.length>0){allAccounts=d.accounts;localStorage.setItem('meesho_all_accounts',JSON.stringify(allAccounts));updateAccountBadge();}
+if(d.ok&&d.accounts.length>0){allAccounts=d.accounts;localStorage.setItem('meesho_all_accounts',JSON.stringify(allAccounts));}
 });
 }
 
@@ -241,40 +217,26 @@ if(allAccounts.length===0){c.innerHTML='<div class="empty-state"><div class="ico
 c.innerHTML='';
 allAccounts.forEach(acc=>{
 const isActive=accountData&&accountData.phone===acc.phone;
-c.innerHTML+='<div style="background:'+(isActive?'#f0e6ff':'#fff')+';padding:15px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border:2px solid '+(isActive?'#9c27b0':'#ddd')+'"><div><strong>+91'+acc.phone+'</strong><br><small style="color:#888">'+(acc.login_time||'')+'</small></div><div style="display:flex;gap:8px">'+(isActive?'<span style="color:#6c3bd1;font-weight:700">✓ Active</span>':'<button onclick="switchAccount(\''+acc.phone+'\')" style="padding:8px 15px;background:#6c3bd1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer">Switch</button>')+'<button onclick="removeAccount(\''+acc.phone+'\')" style="padding:8px;background:#f44336;color:#fff;border:none;border-radius:8px;cursor:pointer">✕</button></div></div>';
+c.innerHTML+='<div class="account-card" style="border-color:'+(isActive?'#9c27b0':'#ddd')+'"><div><strong>+91'+acc.phone+'</strong><br><small style="color:#888">Referral: ✅</small></div><div>'+(isActive?'<span style="color:#6c3bd1;font-weight:700">✓ Active</span>':'<button onclick="switchAccount(\''+acc.phone+'\')" style="padding:8px 15px;background:#6c3bd1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer">Switch</button>')+'</div></div>';
 });
 c.innerHTML+='<button onclick="switchTab(\'login\')" style="width:100%;padding:14px;background:#6c3bd1;color:#fff;border:none;border-radius:12px;font-weight:700;margin-top:15px;cursor:pointer">➕ Add Account</button>';
 }
 
-function switchAccount(phone){
-const acc=allAccounts.find(a=>a.phone===phone);
-if(acc){accountData=acc;localStorage.setItem('meesho_current_account',JSON.stringify(accountData));updateLoginStatus();renderAccounts();renderProfile();showToast('✅ Switched to +91'+phone);}
-}
-
-function removeAccount(phone){
-allAccounts=allAccounts.filter(a=>a.phone!==phone);
-localStorage.setItem('meesho_all_accounts',JSON.stringify(allAccounts));
-fetch(SERVER_URL+'/api/logout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:tgUserId,phone:phone})});
-if(accountData&&accountData.phone===phone){accountData=null;localStorage.removeItem('meesho_current_account');}
-updateLoginStatus();updateAccountBadge();renderAccounts();renderProfile();showToast('🗑️ Removed');
-}
+function switchAccount(phone){const acc=allAccounts.find(a=>a.phone===phone);if(acc){accountData=acc;localStorage.setItem('meesho_current_account',JSON.stringify(accountData));updateLoginStatus();renderAccounts();renderProfile();showToast('✅ Switched');}}
 
 function renderProfile(){
 const c=document.getElementById('profileContent');
 if(accountData){
-c.innerHTML='<div class="profile-card"><div class="avatar">'+accountData.phone[0]+'</div><h3>+91'+accountData.phone+'</h3><p style="color:#6c3bd1;font-weight:700">✅ Logged In</p><div style="display:flex;gap:10px;margin-top:20px;justify-content:center;flex-wrap:wrap"><button onclick="switchTab(\'accounts\')" style="padding:12px 20px;background:#6c3bd1;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer">👥 Accounts ('+allAccounts.length+')</button><button onclick="switchTab(\'orders\')" style="padding:12px 20px;background:#ff9800;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer">📦 Orders ('+ordersData.length+')</button><button onclick="logout()" style="padding:12px 20px;background:#f44336;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer">Logout</button></div></div>';
+c.innerHTML='<div class="login-box"><div style="font-size:50px;margin-bottom:10px">👤</div><h3>+91'+accountData.phone+'</h3><p style="color:#6c3bd1;font-weight:700">✅ Logged In</p><p style="color:#888;font-size:12px">Referral: Auto ✅</p><div style="display:flex;gap:10px;margin-top:15px;justify-content:center"><button onclick="switchTab(\'accounts\')" style="padding:10px 20px;background:#6c3bd1;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer">👥 ('+allAccounts.length+')</button><button onclick="logout()" style="padding:10px 20px;background:#f44336;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer">Logout</button></div></div>';
 }else{
-c.innerHTML='<div class="profile-card"><div class="avatar">👤</div><h3>Guest</h3><button onclick="switchTab(\'login\')" style="margin-top:20px;padding:12px 30px;background:#6c3bd1;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer">📱 Login</button></div>';
+c.innerHTML='<div class="login-box"><div style="font-size:50px;margin-bottom:10px">👤</div><h3>Guest</h3><button onclick="switchTab(\'login\')" style="margin-top:15px;padding:12px 30px;background:#6c3bd1;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer">📱 Login</button></div>';
 }
 }
 
-function logout(){
-accountData=null;localStorage.removeItem('meesho_current_account');
-updateLoginStatus();renderProfile();showToast('👋 Logged out');
-}
+function logout(){accountData=null;localStorage.removeItem('meesho_current_account');updateLoginStatus();renderProfile();showToast('👋 Logged out')}
 
 loadAccountsFromBackend();
-updateLoginStatus();updateAccountBadge();updateCartBadge();fetchProducts('trending',1);
+updateLoginStatus();fetchProducts('trending',1);
 </script>
 </body>
 </html>
