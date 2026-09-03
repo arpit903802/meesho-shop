@@ -1,143 +1,346 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Meesho Store</title>
+<title>Meesho Shop — Smart Shopping. Better Prices.</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--p:#7c3aed;--bg:#faf9ff;--red:#ef4444;--gray:#6b7280;--gold:#f59e0b;--green:#10b981;--grad:linear-gradient(135deg,#7c3aed,#a855f7)}
-*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-body{background:var(--bg);min-height:100vh;padding-bottom:75px}
-.header{background:var(--grad);color:#fff;padding:18px 15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;border-radius:0 0 20px 20px}
-.header h2{font-size:18px;font-weight:800}
-.header span{font-size:11px;background:rgba(255,255,255,0.25);padding:6px 14px;border-radius:25px;font-weight:700}
-.search{display:flex;gap:8px;padding:15px}
-.search input{flex:1;padding:14px 20px;border:2px solid #e9d5ff;border-radius:30px;font-size:14px;outline:none;background:#fff}
-.search button{padding:14px 22px;background:var(--grad);color:#fff;border:none;border-radius:30px;font-weight:800;cursor:pointer}
-.nav{display:flex;background:#fff;padding:10px;gap:5px;margin:0 15px;border-radius:20px;overflow-x:auto}
-.nav-item{flex:1;padding:10px 8px;text-align:center;border-radius:15px;cursor:pointer;font-size:11px;color:var(--gray);font-weight:700;white-space:nowrap;position:relative}
-.nav-item.active{background:var(--grad);color:#fff}
-.nav-item .badge{position:absolute;top:2px;right:8px;background:#f44336;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:10px;display:none}
-.page{display:none;padding:15px;padding-bottom:80px}
-.page.active{display:block}
-.offer-banner{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:22px;border-radius:20px;margin-bottom:15px;text-align:center;cursor:pointer}
-.products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
-.card img{width:100%;height:170px;object-fit:cover;background:#f3e8ff}
-.card .info{padding:12px}
-.card .name{font-size:12px;font-weight:700;margin:5px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card .price{color:var(--red);font-weight:800;font-size:16px}
-.card .mrp{text-decoration:line-through;color:var(--gray);font-size:11px}
-.card .rating{font-size:11px;color:var(--gold)}
-.card button{width:100%;margin-top:8px;padding:10px;background:var(--grad);color:#fff;border:none;border-radius:10px;font-weight:800;font-size:12px;cursor:pointer}
-.login-box{background:#fff;padding:30px 25px;border-radius:25px;text-align:center;margin:15px 0;box-shadow:0 8px 30px rgba(0,0,0,0.1)}
-.login-box h3{font-size:20px;font-weight:800}
-.login-box input{width:100%;padding:15px;border:2px solid #e9d5ff;border-radius:15px;margin:10px 0;font-size:16px;text-align:center;outline:none}
-.login-box button{width:100%;padding:15px;background:var(--grad);color:#fff;border:none;border-radius:15px;font-weight:800;font-size:16px;cursor:pointer}
-.cart-item{background:#fff;padding:15px;border-radius:18px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
-.qty-btn{background:#f0e6ff;color:#6c3bd1;border:none;border-radius:50%;width:30px;height:30px;font-weight:800;cursor:pointer;font-size:16px}
-.remove-btn{background:#f44336;color:#fff;border:none;border-radius:50%;width:30px;height:30px;font-weight:800;cursor:pointer}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;padding:10px;box-shadow:0 -6px 25px rgba(0,0,0,0.08);gap:5px;z-index:100}
-.bn-item{flex:1;text-align:center;cursor:pointer;font-size:10px;color:var(--gray);padding:5px;border-radius:12px}
-.bn-item.active{background:var(--grad);color:#fff;font-weight:800}
+:root{--pink:#e91e63;--pink-dark:#c2185b;--pink-light:#fce4ec;--bg:#fff;--text:#333;--gray:#888;--gold:#ff9800;--green:#4caf50;--shadow:0 2px 10px rgba(0,0,0,0.08);--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+body{background:var(--bg);min-height:100vh;padding-bottom:65px}
+.header{background:#fff;padding:12px 15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.logo{font-size:20px;font-weight:800;color:var(--pink)}
+.logo span{color:#333}
+.search-bar{flex:1;display:flex;gap:8px;max-width:500px;margin:0 auto}
+.search-bar input{flex:1;padding:12px 18px;border:2px solid #fce4ec;border-radius:25px;font-size:14px;outline:none;background:#fafafa;transition:all 0.3s}
+.search-bar input:focus{border-color:var(--pink)}
+.search-bar button{padding:12px 20px;background:var(--pink);color:#fff;border:none;border-radius:25px;font-weight:700;cursor:pointer}
+.header-icons{display:flex;gap:15px;align-items:center}
+.icon-btn{font-size:22px;cursor:pointer;position:relative;background:none;border:none}
+.badge{position:absolute;top:-5px;right:-5px;background:var(--pink);color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:10px;min-width:18px}
+.cat-nav{display:flex;background:#fff;padding:8px 10px;gap:5px;overflow-x:auto;border-bottom:1px solid #f5f5f5}
+.cat-item{flex-shrink:0;padding:8px 15px;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;color:#555;background:#fafafa;transition:all 0.3s;white-space:nowrap}
+.cat-item.active{background:var(--pink);color:#fff}
+.hero{position:relative;margin:15px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);height:200px}
+.hero-slide{position:absolute;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff;opacity:0;transition:opacity 0.5s}
+.hero-slide.active{opacity:1}
+.hero-btn{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 25px;background:#fff;color:var(--pink);border:none;border-radius:25px;font-weight:700;cursor:pointer}
+.section-title{padding:15px;font-size:18px;font-weight:800;color:#333}
+.products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 15px}
+@media(min-width:768px){.products-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1024px){.products-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:1440px){.products-grid{grid-template-columns:repeat(5,1fr)}}
+.product-card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:all 0.3s;cursor:pointer;position:relative}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(0,0,0,0.15)}
+.product-card img{width:100%;height:180px;object-fit:cover;background:#fce4ec}
+.product-info{padding:12px}
+.product-name{font-size:13px;font-weight:700;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.product-price{color:var(--pink);font-weight:800;font-size:16px}
+.product-mrp{text-decoration:line-through;color:var(--gray);font-size:11px}
+.product-discount{background:#e8f5e9;color:var(--green);font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700}
+.product-rating{font-size:11px;color:var(--gold);font-weight:700}
+.product-delivery{font-size:10px;color:var(--green);margin-top:3px}
+.add-btn{width:100%;margin-top:8px;padding:10px;background:var(--pink);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.3s}
+.add-btn:active{transform:scale(0.95)}
+.wishlist-btn{position:absolute;top:8px;right:8px;background:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;box-shadow:var(--shadow)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;padding:8px;box-shadow:0 -4px 15px rgba(0,0,0,0.1);z-index:100;gap:5px}
+.bn-item{flex:1;text-align:center;cursor:pointer;font-size:10px;color:var(--gray);padding:5px;border-radius:8px;position:relative}
+.bn-item.active{background:#fce4ec;color:var(--pink);font-weight:700}
 .bn-icon{font-size:22px;display:block;margin-bottom:2px}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:14px 30px;border-radius:30px;font-size:13px;display:none;z-index:999}
-.loading{text-align:center;padding:40px;color:var(--gray);grid-column:span 2}
-.empty-state{text-align:center;padding:50px;color:var(--gray)}
-.empty-state .icon{font-size:70px;margin-bottom:15px}
-.order-card{background:#fff;padding:18px;border-radius:18px;margin-bottom:10px}
-.account-card{background:#fff;padding:15px;border-radius:15px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border:2px solid #e9d5ff}
-.payment-box{background:#fff;padding:20px;border-radius:18px;margin:10px 0}
-.payment-box .row{display:flex;justify-content:space-between;padding:8px 0;font-size:14px}
-.payment-box .total-row{display:flex;justify-content:space-between;padding:12px 0;font-weight:800;font-size:18px;border-top:2px dashed #ddd;margin-top:5px}
+.page{display:none;padding:15px;padding-bottom:80px}
+.page.active{display:block;animation:fadeIn 0.3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 25px;border-radius:25px;font-size:13px;display:none;z-index:999}
+.cart-item{background:#fff;padding:12px;border-radius:var(--radius);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow)}
+.qty-btn{background:#fce4ec;color:var(--pink);border:none;border-radius:50%;width:28px;height:28px;font-weight:800;cursor:pointer}
+.remove-btn{background:#f44336;color:#fff;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer}
+.form-box{background:#fff;padding:25px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:15px}
+.form-box input{width:100%;padding:12px;border:2px solid #fce4ec;border-radius:8px;margin-bottom:10px;font-size:14px;outline:none}
+.form-box button{width:100%;padding:12px;background:var(--pink);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer}
+.loading{text-align:center;padding:40px;color:var(--gray)}
+.empty{text-align:center;padding:50px 20px;color:var(--gray)}
+.empty-icon{font-size:70px;margin-bottom:15px}
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:15px}
+.modal.active{display:flex}
+.modal-content{background:#fff;border-radius:var(--radius);max-width:500px;width:100%;max-height:90vh;overflow-y:auto;padding:20px}
+.modal-close{float:right;font-size:24px;cursor:pointer;background:none;border:none}
 </style>
 </head>
 <body>
-<div class="header"><h2>🛍️ Meesho Store</h2><span id="loginStatus">🔒 Guest</span></div>
-<div class="search"><input type="text" id="searchInput" placeholder="🔍 Search..." onkeypress="if(event.key==='Enter')searchProducts()"><button onclick="searchProducts()">🔍</button></div>
-<div class="nav">
-<div class="nav-item active" onclick="switchTab('home')">🏠 Home</div>
-<div class="nav-item" onclick="switchTab('offer')">🎯 Offer</div>
-<div class="nav-item" onclick="switchTab('login')">📱 Login</div>
-<div class="nav-item" onclick="switchTab('accounts')">👥 Accounts</div>
-<div class="nav-item" onclick="switchTab('cart')">🛒 Cart<span class="badge" id="cartBadge"></span></div>
-<div class="nav-item" onclick="switchTab('orders')">📦 Orders</div>
-<div class="nav-item" onclick="switchTab('profile')">👤 Profile</div>
+
+<div class="header">
+<div class="logo">MEESHO <span>SHOP</span></div>
+<div class="search-bar">
+<input type="text" id="searchInput" placeholder="Search products..." onkeypress="if(event.key==='Enter')searchProducts()">
+<button onclick="searchProducts()">🔍</button>
 </div>
+<div class="header-icons">
+<button class="icon-btn" onclick="switchTab('wishlist')">❤️<span class="badge" id="wishBadge"></span></button>
+<button class="icon-btn" onclick="switchTab('cart')">🛒<span class="badge" id="cartBadge"></span></button>
+<button class="icon-btn" onclick="switchTab('profile')">👤</button>
+</div>
+</div>
+
+<div class="cat-nav" id="catNav"></div>
+
 <div class="page active" id="page-home">
-<div class="offer-banner" onclick="switchTab('offer')"><h3>🎯 First Order Offer</h3><p>Tap for discount!</p></div>
-<div class="products" id="productsGrid"><div class="loading">Loading...</div></div>
-<button id="loadMoreBtn" onclick="loadMore()" style="display:none;width:100%;padding:15px;background:var(--grad);color:#fff;border:none;border-radius:18px;font-weight:800;cursor:pointer;margin-top:12px">Load More</button>
+<div class="hero" id="heroBanner"></div>
+<div class="section-title">✨ Trending Products</div>
+<div class="products-grid" id="productsGrid"><div class="loading">Loading...</div></div>
 </div>
-<div class="page" id="page-offer"><div class="login-box"><h3>🎯 Your Offer</h3><div id="offerContent"><p>Checking...</p></div></div></div>
-<div class="page" id="page-login">
-<div class="login-box" id="loginForm"><h3>📱 Login</h3><p>Real OTP SMS aayega</p><input type="tel" id="phoneInput" placeholder="10 digit" maxlength="10"><button onclick="sendOTP()">Send OTP</button></div>
-<div class="login-box" id="otpForm" style="display:none"><h3>🔐 OTP</h3><input type="text" id="otpInput" placeholder="SMS OTP" maxlength="6"><button onclick="verifyOTP()">Verify & Login</button></div>
-</div>
-<div class="page" id="page-accounts"><div id="accountsContent"></div></div>
-<div class="page" id="page-cart"><div id="cartContent"></div></div>
-<div class="page" id="page-orders"><div id="ordersContent"></div></div>
-<div class="page" id="page-profile"><div id="profileContent"></div></div>
+
+<div class="page" id="page-cart"><div class="section-title">🛒 My Cart</div><div id="cartContent"></div></div>
+<div class="page" id="page-wishlist"><div class="section-title">❤️ Wishlist</div><div id="wishlistContent"></div></div>
+<div class="page" id="page-profile"><div class="section-title">👤 Profile</div><div id="profileContent"></div></div>
+<div class="page" id="page-orders"><div class="section-title">📦 My Orders</div><div id="ordersContent"></div></div>
+<div class="page" id="page-address"><div class="section-title">📍 Addresses</div><div id="addressContent"></div></div>
+<div class="page" id="page-checkout"><div class="section-title">💳 Checkout</div><div id="checkoutContent"></div></div>
+
 <div class="bottom-nav">
 <div class="bn-item active" onclick="switchTab('home')"><span class="bn-icon">🏠</span>Home</div>
-<div class="bn-item" onclick="switchTab('offer')"><span class="bn-icon">🎯</span>Offer</div>
-<div class="bn-item" onclick="switchTab('login')"><span class="bn-icon">📱</span>Login</div>
-<div class="bn-item" onclick="switchTab('accounts')"><span class="bn-icon">👥</span>Accounts</div>
 <div class="bn-item" onclick="switchTab('cart')"><span class="bn-icon">🛒</span>Cart<span class="badge" id="bnCartBadge"></span></div>
+<div class="bn-item" onclick="switchTab('wishlist')"><span class="bn-icon">❤️</span>Wishlist</div>
 <div class="bn-item" onclick="switchTab('orders')"><span class="bn-icon">📦</span>Orders</div>
 <div class="bn-item" onclick="switchTab('profile')"><span class="bn-icon">👤</span>Profile</div>
 </div>
+
 <div class="toast" id="toast"></div>
+<div class="modal" id="productModal"><div class="modal-content" id="modalContent"></div></div>
 <script>
 const tg=window.Telegram.WebApp;tg.ready();tg.expand();
-const API_URL="https://meesho-server-production.up.railway.app/api/search";
-const SERVER_URL="https://meesho-server-production.up.railway.app";
-let tgUserId=tg.initDataUnsafe?.user?'u'+tg.initDataUnsafe.user.id:'guest';
-let accountData=JSON.parse(localStorage.getItem('meesho_current_account')||'null');
-let allAccounts=JSON.parse(localStorage.getItem('meesho_all_accounts')||'[]');
-let cartData=JSON.parse(localStorage.getItem('meesho_cart')||'[]');
-let ordersData=JSON.parse(localStorage.getItem('meesho_orders')||'[]');
-let allProducts=[];let currentPage=1;let currentQuery='trending';let phoneNumber=null;
+const SERVER="https://meesho-server-production.up.railway.app";
 
-function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
-function updateCartBadge(){const c=cartData.reduce((s,i)=>s+i.quantity,0);document.querySelectorAll('.badge').forEach(b=>{if(c>0){b.textContent=c;b.style.display='block';}else{b.style.display='none';}})}
-function switchTab(tab){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.querySelectorAll('.bn-item').forEach(n=>n.classList.remove('active'));document.getElementById('page-'+tab).classList.add('active');const tabs=['home','offer','login','accounts','cart','orders','profile'];const i=tabs.indexOf(tab);if(i>=0){document.querySelectorAll('.nav-item')[i].classList.add('active');document.querySelectorAll('.bn-item')[i].classList.add('active')}if(tab==='offer')checkOffer();if(tab==='profile')renderProfile();if(tab==='accounts')renderAccounts();if(tab==='cart')renderCart();if(tab==='orders')renderOrders();}
-function updateLoginStatus(){document.getElementById('loginStatus').textContent=accountData?'✅ '+accountData.phone:'🔒 Guest'}
+let cart=JSON.parse(localStorage.getItem('meesho_cart')||'[]');
+let wishlist=JSON.parse(localStorage.getItem('meesho_wishlist')||'[]');
+let orders=JSON.parse(localStorage.getItem('meesho_orders')||'[]');
+let addresses=JSON.parse(localStorage.getItem('meesho_addresses')||'[]');
+let user=JSON.parse(localStorage.getItem('meesho_user')||'null');
+let currentCategory='All';
+let products=[];
+let currentProduct=null;
 
-function checkOffer(){const c=document.getElementById('offerContent');c.innerHTML='<p>🔄 Checking...</p>';fetch(SERVER_URL+'/api/offer').then(r=>r.json()).then(d=>{if(d.ok){c.innerHTML='<div style="background:#f0e6ff;padding:25px;border-radius:20px"><h2 style="color:#6c3bd1;font-size:28px">🎉 Upto ₹'+d.bucket+' OFF</h2><button onclick="useOffer()" style="width:100%;padding:15px;background:var(--grad);color:#fff;border:none;border-radius:12px;font-weight:800;font-size:16px;margin-top:15px;cursor:pointer">✅ Use This Offer</button><button onclick="checkOffer()" style="width:100%;padding:12px;background:#eee;color:#555;border:none;border-radius:10px;font-weight:600;margin-top:8px;cursor:pointer">🔄 Try Another</button></div>';}else{c.innerHTML='<p>❌ No offer</p>';}}).catch(()=>{c.innerHTML='<p>❌ Error</p>';});}
-function useOffer(){if(!accountData){showToast('📱 Login karo');switchTab('login');return;}showToast('✅ Offer applied!');switchTab('home');}
+const categories=['All','Women Ethnic','Women Western','Men','Kids','Home & Kitchen','Beauty','Jewellery','Bags & Footwear','Electronics','Grocery'];
+const emojis=['🏠','🥻','👗','👔','👶','🏠','💄','💎','👜','📱','🛒'];
 
-function fetchProducts(q,p=1){const g=document.getElementById('productsGrid');g.innerHTML='<div class="loading">Loading...</div>';fetch(API_URL+'?q='+encodeURIComponent(q)+'&page='+p+'&limit=20').then(r=>r.json()).then(d=>{if(d.ok&&d.products.length>0){if(p===1)allProducts=[];allProducts=allProducts.concat(d.products);renderProducts(allProducts);document.getElementById('loadMoreBtn').style.display=d.has_next?'block':'none';currentPage=p;}else{g.innerHTML='<div class="empty-state"><div class="icon">😕</div>No products</div>';}}).catch(()=>{g.innerHTML='<div class="empty-state"><div class="icon">⚠️</div>Error</div>';});}
-function renderProducts(l){const g=document.getElementById('productsGrid');g.innerHTML=l.map(p=>{const disc=Math.round((1-p.price/p.mrp)*100);const inCart=cartData.find(c=>c.id===p.id);return '<div class="card"><img src="'+p.image+'" onerror="this.src=\'https://picsum.photos/300/400?random='+Math.floor(Math.random()*100)+'\'"><div class="info"><div class="name">'+p.name+'</div><div><span class="price">₹'+p.price+'</span> <span class="mrp">₹'+p.mrp+'</span> '+(disc>0?'<span style="color:#10b981;font-size:10px;font-weight:700">'+disc+'% OFF</span>':'')+'</div><div class="rating">⭐ '+p.rating+'</div><button class="'+(inCart?'added':'')+'" onclick="addToCart(\''+p.id+'\',\''+p.name.replace(/'/g,'')+'\','+p.price+')">'+(inCart?'✅ Added':'🛒 Add')+'</button></div></div>';}).join('');}
-function searchProducts(){currentQuery=document.getElementById('searchInput').value.trim()||'trending';currentPage=1;fetchProducts(currentQuery,1)}
-function loadMore(){fetchProducts(currentQuery,currentPage+1)}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2000)}
+function switchTab(tab){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+const page=document.getElementById('page-'+tab);
+if(page)page.classList.add('active');
+const tabs=['home','cart','wishlist','orders','profile','address','checkout'];
+const i=tabs.indexOf(tab);
+if(i>=0)document.querySelectorAll('.bn-item')[i].classList.add('active');
+if(tab==='cart')renderCart();
+if(tab==='wishlist')renderWishlist();
+if(tab==='orders')renderOrders();
+if(tab==='profile')renderProfile();
+if(tab==='address')renderAddresses();
+if(tab==='checkout')renderCheckout();
+}
+function updateBadges(){
+const c=cart.reduce((s,i)=>s+i.q,0);
+const w=wishlist.length;
+document.querySelectorAll('#cartBadge,#bnCartBadge').forEach(b=>{b.textContent=c;b.style.display=c>0?'block':'none'});
+document.getElementById('wishBadge').textContent=w;
+document.getElementById('wishBadge').style.display=w>0?'block':'none';
+}
 
-function addToCart(id,name,price){const e=cartData.find(c=>c.id===id);if(e){e.quantity++;}else{cartData.push({id,name,price,quantity:1});}localStorage.setItem('meesho_cart',JSON.stringify(cartData));updateCartBadge();renderProducts(allProducts);showToast('✅ '+name);}
-function removeFromCart(id){cartData=cartData.filter(c=>c.id!==id);localStorage.setItem('meesho_cart',JSON.stringify(cartData));updateCartBadge();renderCart();}
-function updateQty(id,d){const i=cartData.find(c=>c.id===id);if(i){i.quantity+=d;if(i.quantity<=0){removeFromCart(id);return;}localStorage.setItem('meesho_cart',JSON.stringify(cartData));updateCartBadge();renderCart();}}
-function renderCart(){const c=document.getElementById('cartContent');if(cartData.length===0){c.innerHTML='<div class="empty-state"><div class="icon">🛒</div>Cart empty</div>';return}let t=0;c.innerHTML=cartData.map(i=>{t+=i.price*i.quantity;return '<div class="cart-item"><div><strong>'+i.name+'</strong><br><small>₹'+i.price+'</small><div style="display:flex;gap:8px;margin-top:5px"><button class="qty-btn" onclick="updateQty(\''+i.id+'\',-1)">−</button><span style="font-weight:800">'+i.quantity+'</span><button class="qty-btn" onclick="updateQty(\''+i.id+'\',1)">+</button></div></div><div><strong>₹'+(i.price*i.quantity)+'</strong><br><button class="remove-btn" onclick="removeFromCart(\''+i.id+'\')">✕</button></div></div>';}).join('')+'<div class="cart-item"><strong>Total</strong><strong>₹'+t+'</strong></div><button onclick="checkout()" style="width:100%;padding:15px;background:var(--grad);color:#fff;border:none;border-radius:12px;font-weight:800;margin-top:10px;cursor:pointer">Proceed to Checkout</button>';}
+function renderCategories(){
+document.getElementById('catNav').innerHTML=categories.map((c,i)=>{
+return '<div class="cat-item '+(c===currentCategory?'active':'')+'" onclick="filterCategory(\''+c+'\')">'+emojis[i]+' '+c+'</div>';
+}).join('');
+}
 
-function checkout(){if(!accountData){showToast('📱 Login karo');switchTab('login');return;}const savedAddr=localStorage.getItem('meesho_address');if(!savedAddr){showAddressForm();return;}showPayment();}
-function showAddressForm(){const c=document.getElementById('cartContent');c.innerHTML='<div class="login-box"><h3>📍 Delivery Address</h3><input type="text" id="aName" placeholder="Full Name"><input type="text" id="aPhone" placeholder="Phone" maxlength="10"><input type="text" id="aPin" placeholder="PIN Code" maxlength="6"><input type="text" id="aHouse" placeholder="House/Flat"><input type="text" id="aArea" placeholder="Area/Street"><input type="text" id="aCity" placeholder="City"><input type="text" id="aState" placeholder="State"><button onclick="saveAddress()">Save & Continue</button></div>';}
-function saveAddress(){const a={name:document.getElementById('aName').value.trim(),phone:document.getElementById('aPhone').value.trim(),pin:document.getElementById('aPin').value.trim(),house:document.getElementById('aHouse').value.trim(),area:document.getElementById('aArea').value.trim(),city:document.getElementById('aCity').value.trim(),state:document.getElementById('aState').value.trim()};if(!a.name||!a.phone||!a.pin||!a.house||!a.city){showToast('❌ Sab bharo');return;}localStorage.setItem('meesho_address',JSON.stringify(a));showToast('✅ Address saved!');showPayment();}
-function showPayment(){const sub=cartData.reduce((s,i)=>s+i.price*i.quantity,0);const del=sub<500?50:0;const cod=20;const disc=Math.round(sub*0.1);const codT=sub+del+cod;const upiT=sub+del-disc;const c=document.getElementById('cartContent');c.innerHTML='<div class="payment-box"><div class="row"><span>Subtotal</span><span>₹'+sub+'</span></div><div class="row"><span>Delivery</span><span>'+(del===0?'FREE':'₹'+del)+'</span></div></div><div class="payment-box" style="border:2px solid #7c3aed"><div class="row"><span>UPI Discount</span><span style="color:#10b981">-₹'+disc+'</span></div><div class="total-row"><span>Total</span><span>₹'+upiT+'</span></div><button onclick="payUPI('+upiT+')" style="width:100%;padding:15px;background:var(--grad);color:#fff;border:none;border-radius:12px;font-weight:800;margin-top:10px;cursor:pointer">📱 Pay ₹'+upiT+'</button></div><div class="payment-box" style="border:2px solid #f59e0b"><div class="row"><span>COD Fee</span><span>₹'+cod+'</span></div><div class="total-row"><span>Total</span><span>₹'+codT+'</span></div><button onclick="placeCOD('+codT+')" style="width:100%;padding:15px;background:#f59e0b;color:#fff;border:none;border-radius:12px;font-weight:800;margin-top:10px;cursor:pointer">💵 COD ₹'+codT+'</button></div>';}
-function payUPI(amt){window.location.href='upi://pay?pa=merchant@upi&pn=Meesho Store&am='+amt+'&cu=INR';saveOrder(amt,'UPI','⏳ Pending');}
-function placeCOD(amt){saveOrder(amt,'COD','✅ Confirmed');}
-function saveOrder(amt,pay,status){const o={id:Date.now(),items:cartData,total:amt,phone:accountData.phone,status:status,date:new Date().toLocaleString(),payment:pay};ordersData.push(o);localStorage.setItem('meesho_orders',JSON.stringify(ordersData));fetch(SERVER_URL+'/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});cartData=[];localStorage.removeItem('meesho_cart');updateCartBadge();showToast('🎉 Order placed!');switchTab('orders');}
-function renderOrders(){const c=document.getElementById('ordersContent');if(ordersData.length===0){c.innerHTML='<div class="empty-state"><div class="icon">📦</div>No orders</div>';return}c.innerHTML=ordersData.map(o=>'<div class="order-card"><strong>#'+o.id.toString().slice(-6)+'</strong> <span style="color:'+(o.payment==='COD'?'#10b981':'#f59e0b')+'">'+o.status+'</span><br><small>'+o.date+'</small><br>'+o.items.length+' items | ₹'+o.total+'</div>').join('');}
+function renderHero(){
+const slides=[
+{text:'🎉 Upto 70% OFF',color:'linear-gradient(135deg,#e91e63,#c2185b)'},
+{text:'🛍️ Big Savings',color:'linear-gradient(135deg,#ff9800,#f44336)'},
+{text:'✨ New Arrivals',color:'linear-gradient(135deg,#7c3aed,#a855f7)'}
+];
+document.getElementById('heroBanner').innerHTML=slides.map((s,i)=>'<div class="hero-slide '+(i===0?'active':'')+'" style="background:'+s.color+'">'+s.text+'<button class="hero-btn">Shop Now</button></div>').join('');
+let idx=0;
+setInterval(()=>{
+document.querySelectorAll('.hero-slide').forEach(s=>s.classList.remove('active'));
+idx=(idx+1)%slides.length;
+document.querySelectorAll('.hero-slide')[idx].classList.add('active');
+},3000);
+}
 
-function sendOTP(){const ph=document.getElementById('phoneInput').value.trim();if(ph.length!==10){showToast('❌ 10 digit');return}phoneNumber=ph;showToast('📱 OTP bhej rahe...');fetch(SERVER_URL+'/api/send_otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:ph,user_id:tgUserId})}).then(r=>r.json()).then(d=>{if(d.ok){document.getElementById('loginForm').style.display='none';document.getElementById('otpForm').style.display='block';showToast('📱 '+d.message);}else{showToast('❌ '+d.message);}}).catch(()=>showToast('❌ Error'));}
-function verifyOTP(){const otp=document.getElementById('otpInput').value.trim();if(otp.length<4){showToast('❌ OTP');return}showToast('🔐 Verifying...');fetch(SERVER_URL+'/api/verify_otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:phoneNumber,otp:otp})}).then(r=>r.json()).then(d=>{if(d.ok){accountData={phone:phoneNumber,user_id:tgUserId};allAccounts.push(accountData);localStorage.setItem('meesho_current_account',JSON.stringify(accountData));localStorage.setItem('meesho_all_accounts',JSON.stringify(allAccounts));updateLoginStatus();document.getElementById('loginForm').style.display='block';document.getElementById('otpForm').style.display='none';showToast('✅ Login!');switchTab('home');}else{showToast('❌ '+d.message);}}).catch(()=>showToast('❌ Error'));}
+async function fetchProducts(query='trending'){
+const grid=document.getElementById('productsGrid');
+grid.innerHTML='<div class="loading">Loading products...</div>';
+try{
+const r=await fetch(SERVER+'/api/search?q='+encodeURIComponent(query)+'&limit=30');
+const d=await r.json();
+if(d.ok&&d.products.length>0){products=d.products;renderProducts(products);}
+else{grid.innerHTML='<div class="empty"><div class="empty-icon">😕</div>No products found</div>';}
+}catch(e){
+products=fallbackProducts();
+renderProducts(products);
+}
+}
 
-function loadAccounts(){fetch(SERVER_URL+'/api/accounts?user_id='+tgUserId).then(r=>r.json()).then(d=>{if(d.ok&&d.accounts.length>0){allAccounts=d.accounts;localStorage.setItem('meesho_all_accounts',JSON.stringify(allAccounts));}});}
-function renderAccounts(){const c=document.getElementById('accountsContent');if(allAccounts.length===0){c.innerHTML='<div class="empty-state"><div class="icon">👥</div>No accounts</div>';return}c.innerHTML='';allAccounts.forEach(a=>{const act=accountData&&accountData.phone===a.phone;c.innerHTML+='<div class="account-card"><strong>+91'+a.phone+'</strong>'+(act?'<span style="color:#6c3bd1;font-weight:800">✓ Active</span>':'<button onclick="switchAccount(\''+a.phone+'\')" style="background:var(--grad);color:#fff;border:none;border-radius:8px;padding:8px 15px;cursor:pointer">Switch</button>')+'</div>';});}
-function switchAccount(ph){const a=allAccounts.find(x=>x.phone===ph);if(a){accountData=a;localStorage.setItem('meesho_current_account',JSON.stringify(a));updateLoginStatus();renderAccounts();showToast('✅ Switched');}}
-function renderProfile(){const c=document.getElementById('profileContent');if(accountData){c.innerHTML='<div class="login-box"><div style="font-size:50px">👤</div><h3>+91'+accountData.phone+'</h3><p style="color:#6c3bd1;font-weight:800">✅ Logged In</p><button onclick="logout()" style="margin-top:15px;padding:10px 20px;background:#f44336;color:#fff;border:none;border-radius:10px;cursor:pointer">Logout</button></div>';}else{c.innerHTML='<div class="login-box"><div style="font-size:50px">👤</div><h3>Guest</h3><button onclick="switchTab(\'login\')" style="margin-top:15px;padding:12px 30px;background:var(--grad);color:#fff;border:none;border-radius:10px;cursor:pointer">📱 Login</button></div>';}}
-function logout(){accountData=null;localStorage.removeItem('meesho_current_account');updateLoginStatus();renderProfile();showToast('👋 Logged out')}
+function fallbackProducts(){
+const items=[];
+const names=['Kurti','Saree','T-Shirt','Shoes','Watch','Earrings','Handbag','Sunglasses','Leggings','Shirt','Frock','Bed Sheet','Cookware','Yoga Mat','Earbuds','Power Bank','Lamp','Bottle','Backpack','Face Wash'];
+for(let i=0;i<30;i++){
+const p=Math.floor(Math.random()*900)+99;
+items.push({id:String(i+1),name:names[i%names.length]+' '+Math.floor(Math.random()*100),price:p,mrp:p*2,rating:(Math.random()*2+3).toFixed(1),image:'https://picsum.photos/300/400?random='+(i+1)});
+}
+return items;
+}
 
-loadAccounts();
-updateLoginStatus();updateCartBadge();fetchProducts('trending',1);
+function renderProducts(list){
+document.getElementById('productsGrid').innerHTML=list.map(p=>{
+const disc=Math.round((1-p.price/p.mrp)*100);
+const inWish=wishlist.find(w=>w.id===p.id);
+return '<div class="product-card" onclick="openProduct(\''+p.id+'\')"><button class="wishlist-btn" onclick="event.stopPropagation();toggleWishlist(\''+p.id+'\')">'+(inWish?'❤️':'🤍')+'</button><img src="'+p.image+'" onerror="this.src=\'https://picsum.photos/300/400?random='+Math.random()*100+'\'"><div class="product-info"><div class="product-name">'+p.name+'</div><div><span class="product-price">₹'+p.price+'</span> <span class="product-mrp">₹'+p.mrp+'</span> '+(disc>0?'<span class="product-discount">'+disc+'% OFF</span>':'')+'</div><div class="product-rating">⭐ '+p.rating+'</div><div class="product-delivery">🚚 Free Delivery</div><button class="add-btn" onclick="event.stopPropagation();addToCart(\''+p.id+'\')">🛒 Add to Cart</button></div></div>';
+}).join('');
+}
+
+function filterCategory(cat){
+currentCategory=cat;
+renderCategories();
+if(cat==='All'){fetchProducts('trending');return;}
+fetchProducts(cat.toLowerCase());
+}
+
+function searchProducts(){
+const q=document.getElementById('searchInput').value.trim();
+if(!q){fetchProducts('trending');return;}
+fetchProducts(q);
+}
+
+function openProduct(id){
+currentProduct=products.find(p=>p.id===id);
+if(!currentProduct)return;
+document.getElementById('modalContent').innerHTML='<div><button class="modal-close" onclick="closeModal()">✕</button></div><img src="'+currentProduct.image+'" style="width:100%;border-radius:12px;margin-bottom:15px" onerror="this.src=\'https://picsum.photos/300/400?random='+Math.random()*100+'\'"><h3 style="font-size:18px;margin-bottom:10px">'+currentProduct.name+'</h3><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px;font-weight:800;color:#e91e63">₹'+currentProduct.price+'</span><s style="color:#888">₹'+currentProduct.mrp+'</s><span style="background:#e8f5e9;color:#4caf50;padding:4px 10px;border-radius:6px;font-weight:700">'+Math.round((1-currentProduct.price/currentProduct.mrp)*100)+'% OFF</span></div><div style="color:#ff9800;margin-bottom:10px">⭐ '+currentProduct.rating+'</div><div style="display:flex;gap:10px;margin-top:15px"><button onclick="addToCart(\''+currentProduct.id+'\')" style="flex:1;padding:14px;background:#e91e63;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:15px">🛒 Add to Cart</button><button onclick="toggleWishlist(\''+currentProduct.id+'\')" style="padding:14px;background:#fce4ec;border:none;border-radius:10px;cursor:pointer;font-size:20px">❤️</button></div><button onclick="buyNow(\''+currentProduct.id+'\')" style="width:100%;padding:14px;background:#ff9800;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:15px;margin-top:10px;cursor:pointer">⚡ Buy Now</button>';
+document.getElementById('productModal').classList.add('active');
+}
+
+function closeModal(){document.getElementById('productModal').classList.remove('active');}
+
+function addToCart(id){
+const p=products.find(x=>x.id===id);
+if(!p)return;
+const e=cart.find(c=>c.id===id);
+if(e){e.q++;}else{cart.push({...p,q:1});}
+localStorage.setItem('meesho_cart',JSON.stringify(cart));
+updateBadges();
+toast('✅ Added to cart!');
+}
+
+function toggleWishlist(id){
+const idx=wishlist.findIndex(w=>w.id===id);
+if(idx>=0){wishlist.splice(idx,1);toast('💔 Removed');}
+else{const p=products.find(x=>x.id===id);if(p)wishlist.push(p);toast('❤️ Added');}
+localStorage.setItem('meesho_wishlist',JSON.stringify(wishlist));
+updateBadges();
+if(document.getElementById('page-wishlist').classList.contains('active'))renderWishlist();
+}
+
+function renderCart(){
+const c=document.getElementById('cartContent');
+if(cart.length===0){c.innerHTML='<div class="empty"><div class="empty-icon">🛒</div>Cart empty<br><button onclick="switchTab(\'home\')" style="margin-top:15px;padding:12px 25px;background:#e91e63;color:#fff;border:none;border-radius:10px;cursor:pointer">Shop Now</button></div>';return}
+let total=0;
+c.innerHTML=cart.map(i=>{total+=i.price*i.q;return '<div class="cart-item"><div><strong>'+i.name+'</strong><br><small>₹'+i.price+'</small><div style="display:flex;gap:8px;margin-top:5px"><button class="qty-btn" onclick="updateQty(\''+i.id+'\',-1)">−</button><span>'+i.q+'</span><button class="qty-btn" onclick="updateQty(\''+i.id+'\',1)">+</button></div></div><div style="text-align:right"><strong>₹'+(i.price*i.q)+'</strong><br><button class="remove-btn" onclick="removeFromCart(\''+i.id+'\')">✕</button></div></div>';}).join('');
+c.innerHTML+='<div style="background:#fce4ec;padding:15px;border-radius:12px;text-align:right;font-weight:800;font-size:18px">Total: ₹'+total+'</div><button onclick="switchTab(\'checkout\')" style="width:100%;padding:15px;background:#e91e63;color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;margin-top:10px;cursor:pointer">Proceed to Checkout</button>';
+}
+
+function updateQty(id,d){
+const i=cart.find(c=>c.id===id);
+if(i){i.q+=d;if(i.q<=0){removeFromCart(id);return;}localStorage.setItem('meesho_cart',JSON.stringify(cart));updateBadges();renderCart();}
+}
+
+function removeFromCart(id){cart=cart.filter(c=>c.id!==id);localStorage.setItem('meesho_cart',JSON.stringify(cart));updateBadges();renderCart();toast('🗑️ Removed');}
+
+function renderWishlist(){
+const c=document.getElementById('wishlistContent');
+if(wishlist.length===0){c.innerHTML='<div class="empty"><div class="empty-icon">❤️</div>Wishlist empty</div>';return}
+c.innerHTML=wishlist.map(p=>'<div class="cart-item"><div><strong>'+p.name+'</strong><br><small>₹'+p.price+'</small></div><button onclick="moveToCart(\''+p.id+'\')" style="padding:8px 15px;background:#e91e63;color:#fff;border:none;border-radius:8px;cursor:pointer">Move to Cart</button></div>').join('');
+}
+
+function moveToCart(id){
+const p=wishlist.find(w=>w.id===id);
+if(p){cart.push({...p,q:1});wishlist=wishlist.filter(w=>w.id!==id);localStorage.setItem('meesho_cart',JSON.stringify(cart));localStorage.setItem('meesho_wishlist',JSON.stringify(wishlist));updateBadges();renderWishlist();toast('✅ Moved');}
+}
+
+function renderProfile(){
+const c=document.getElementById('profileContent');
+if(user){
+c.innerHTML='<div class="form-box"><h3>👤 '+user.name+'</h3><p>📱 '+user.phone+'</p><p>📧 '+user.email+'</p><button onclick="logout()" style="margin-top:15px;background:#f44336">Logout</button></div>';
+}else{
+c.innerHTML='<div class="form-box"><h3>📱 Login / Signup</h3><input type="text" id="uName" placeholder="Name"><input type="text" id="uPhone" placeholder="Phone" maxlength="10"><input type="email" id="uEmail" placeholder="Email"><button onclick="login()">Login / Signup</button><p style="font-size:11px;color:#888;margin-top:5px">Demo authentication</p></div>';
+}
+c.innerHTML+='<div style="display:flex;gap:10px;margin-top:15px"><button onclick="switchTab(\'orders\')" style="flex:1;padding:12px;background:#fce4ec;color:#e91e63;border:none;border-radius:10px;font-weight:700;cursor:pointer">📦 Orders</button><button onclick="switchTab(\'address\')" style="flex:1;padding:12px;background:#fce4ec;color:#e91e63;border:none;border-radius:10px;font-weight:700;cursor:pointer">📍 Addresses</button></div>';
+}
+
+function login(){
+const n=document.getElementById('uName').value.trim();
+const p=document.getElementById('uPhone').value.trim();
+const e=document.getElementById('uEmail').value.trim();
+if(!n||!p){toast('❌ Name aur Phone bharo');return;}
+user={name:n,phone:p,email:e};
+localStorage.setItem('meesho_user',JSON.stringify(user));
+renderProfile();toast('✅ Login!');
+}
+
+function logout(){user=null;localStorage.removeItem('meesho_user');renderProfile();toast('👋 Logged out');}
+
+function renderAddresses(){
+const c=document.getElementById('addressContent');
+if(addresses.length===0){c.innerHTML='<div class="empty"><div class="empty-icon">📍</div>No addresses<br><button onclick="addAddressForm()" style="margin-top:15px;padding:12px 25px;background:#e91e63;color:#fff;border:none;border-radius:10px;cursor:pointer">Add Address</button></div>';return}
+c.innerHTML=addresses.map((a,i)=>'<div class="cart-item"><div><strong>'+a.name+'</strong><br><small>'+a.house+', '+a.area+', '+a.city+' - '+a.pin+'<br>📱 '+a.phone+'</small></div><button onclick="deleteAddress('+i+')" class="remove-btn">✕</button></div>').join('');
+c.innerHTML+='<button onclick="addAddressForm()" style="width:100%;padding:14px;background:#e91e63;color:#fff;border:none;border-radius:12px;font-weight:700;margin-top:10px;cursor:pointer">➕ Add Address</button>';
+}
+
+function addAddressForm(){
+document.getElementById('addressContent').innerHTML='<div class="form-box"><h3>📍 Add Address</h3><input id="aName" placeholder="Name"><input id="aPhone" placeholder="Phone" maxlength="10"><input id="aPin" placeholder="Pincode" maxlength="6"><input id="aHouse" placeholder="House/Flat"><input id="aArea" placeholder="Area"><input id="aCity" placeholder="City"><input id="aState" placeholder="State"><button onclick="saveAddress()">Save</button></div>';
+}
+
+function saveAddress(){
+const a={name:document.getElementById('aName').value.trim(),phone:document.getElementById('aPhone').value.trim(),pin:document.getElementById('aPin').value.trim(),house:document.getElementById('aHouse').value.trim(),area:document.getElementById('aArea').value.trim(),city:document.getElementById('aCity').value.trim(),state:document.getElementById('aState').value.trim()};
+if(!a.name||!a.phone||!a.pin){toast('❌ Sab bharo');return;}
+addresses.push(a);
+localStorage.setItem('meesho_addresses',JSON.stringify(addresses));
+renderAddresses();toast('✅ Saved!');
+}
+
+function deleteAddress(i){addresses.splice(i,1);localStorage.setItem('meesho_addresses',JSON.stringify(addresses));renderAddresses();}
+
+function renderCheckout(){
+const c=document.getElementById('checkoutContent');
+if(cart.length===0){c.innerHTML='<div class="empty"><div class="empty-icon">🛒</div>Cart empty</div>';return}
+const sub=cart.reduce((s,i)=>s+i.price*i.q,0);
+const del=sub<500?50:0;
+const total=sub+del;
+c.innerHTML='<div class="form-box"><h3>📍 Select Address</h3>'+(addresses.length>0?addresses.map(a=>'<label style="display:block;padding:10px;border:1px solid #fce4ec;border-radius:8px;margin-bottom:5px"><input type="radio" name="addr" checked> '+a.name+' - '+a.house+', '+a.city+'</label>').join(''):'<button onclick="switchTab(\'address\')">Add Address</button>')+'</div><div class="form-box"><h3>💳 Payment</h3><div style="display:flex;justify-content:space-between;padding:5px 0">Subtotal<span>₹'+sub+'</span></div><div style="display:flex;justify-content:space-between;padding:5px 0">Delivery<span>'+(del===0?'FREE':'₹'+del)+'</span></div><div style="display:flex;justify-content:space-between;padding:10px 0;font-weight:800;font-size:18px;border-top:2px dashed #ddd;margin-top:5px">Total<span>₹'+total+'</span></div><button onclick="placeOrder('+total+')" style="margin-top:10px;background:#4caf50">✅ Place Order (₹'+total+')</button><p style="font-size:11px;color:#888;margin-top:5px">Demo order</p></div>';
+}
+
+function placeOrder(total){
+if(addresses.length===0){toast('❌ Address add karo');switchTab('address');return;}
+const o={id:'MS'+Date.now().toString().slice(-6),items:cart,total:total,address:addresses[0],date:new Date().toLocaleString(),status:'Order Placed'};
+orders.push(o);
+localStorage.setItem('meesho_orders',JSON.stringify(orders));
+cart=[];localStorage.removeItem('meesho_cart');
+updateBadges();toast('🎉 Order placed!');
+switchTab('orders');
+}
+
+function renderOrders(){
+const c=document.getElementById('ordersContent');
+if(orders.length===0){c.innerHTML='<div class="empty"><div class="empty-icon">📦</div>No orders<br><button onclick="switchTab(\'home\')" style="margin-top:15px;padding:12px 25px;background:#e91e63;color:#fff;border:none;border-radius:10px;cursor:pointer">Shop Now</button></div>';return}
+c.innerHTML=orders.map(o=>'<div class="cart-item"><div><strong>#'+o.id+'</strong><br><small>'+o.date+'</small><br><small>'+o.items.length+' items | ₹'+o.total+'</small><br><span style="color:#4caf50;font-weight:700">✅ '+o.status+'</span></div></div>').join('');
+}
+
+function buyNow(id){addToCart(id);switchTab('checkout');}
+
+renderCategories();
+renderHero();
+fetchProducts('trending');
+updateBadges();
 </script>
 </body>
 </html>
