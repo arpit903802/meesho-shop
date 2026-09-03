@@ -6,69 +6,94 @@
 <title>Meesho Store</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--primary:#9c27b0;--primary-dark:#7b1fa2;--bg:#f8f5ff;--card:#fff;--red:#e91e63;--gray:#888;--gold:#ff9800}
+:root{--primary:#9c27b0;--primary-dark:#6c3bd1;--bg:#f8f5ff;--card:#fff;--red:#e91e63;--gray:#888;--gold:#ff9800;--green:#4caf50}
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 body{background:var(--bg);min-height:100vh;padding-bottom:70px}
-.header{background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;padding:15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 15px rgba(108,59,209,0.3)}
-.header h2{font-size:16px;font-weight:700}
-.header span{font-size:11px;background:rgba(255,255,255,0.25);padding:5px 12px;border-radius:20px;font-weight:600}
+.header{background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;padding:15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(108,59,209,0.4)}
+.header h2{font-size:17px;font-weight:800;letter-spacing:0.5px}
+.header .right{display:flex;align-items:center;gap:10px}
+.header .status{font-size:11px;background:rgba(255,255,255,0.25);padding:5px 12px;border-radius:20px;font-weight:600}
 .search{display:flex;gap:8px;padding:12px 15px}
-.search input{flex:1;padding:12px 15px;border:2px solid #e0d5f5;border-radius:25px;font-size:14px;outline:none;background:#fff;transition:all 0.3s}
-.search input:focus{border-color:var(--primary)}
-.search button{padding:12px 20px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:25px;font-weight:bold;cursor:pointer;box-shadow:0 4px 10px rgba(108,59,209,0.3)}
-.nav{display:flex;background:#fff;padding:8px;gap:5px;margin:0 15px;border-radius:15px;overflow-x:auto;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
-.nav-item{flex:1;padding:10px;text-align:center;border-radius:10px;cursor:pointer;font-size:12px;color:var(--gray);font-weight:600;white-space:nowrap;transition:all 0.3s}
-.nav-item.active{background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;box-shadow:0 4px 10px rgba(108,59,209,0.3)}
+.search input{flex:1;padding:13px 18px;border:2px solid #e0d5f5;border-radius:30px;font-size:14px;outline:none;background:#fff;transition:all 0.3s;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.search input:focus{border-color:var(--primary);box-shadow:0 4px 15px rgba(108,59,209,0.2)}
+.search button{padding:13px 22px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:30px;font-weight:700;cursor:pointer;box-shadow:0 4px 15px rgba(108,59,209,0.3);transition:transform 0.2s}
+.search button:active{transform:scale(0.92)}
+.nav{display:flex;background:#fff;padding:8px;gap:5px;margin:0 15px;border-radius:15px;overflow-x:auto;box-shadow:0 2px 15px rgba(0,0,0,0.06)}
+.nav-item{flex:1;padding:10px;text-align:center;border-radius:10px;cursor:pointer;font-size:11px;color:var(--gray);font-weight:600;white-space:nowrap;transition:all 0.3s;position:relative}
+.nav-item.active{background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;box-shadow:0 4px 12px rgba(108,59,209,0.3)}
+.nav-item .badge{position:absolute;top:2px;right:8px;background:#f44336;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:10px;display:none;animation:bounce 0.5s}
+@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
 .page{display:none;padding:15px;padding-bottom:80px}
-.page.active{display:block;animation:fadeIn 0.3s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.page.active{display:block;animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
 .products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:var(--card);border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.08);transition:transform 0.3s,box-shadow 0.3s;cursor:pointer}
-.card:active{transform:scale(0.96)}
-.card .img{width:100%;height:160px;object-fit:cover;background:#f0e6ff}
-.card .info{padding:10px}
-.card .name{font-size:12px;font-weight:600;margin:5px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#333}
-.card .price-row{display:flex;align-items:center;gap:6px;margin-bottom:3px}
-.card .price{color:var(--red);font-weight:700;font-size:15px}
+.card{background:var(--card);border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.08);transition:transform 0.3s,box-shadow 0.3s;cursor:pointer;animation:cardIn 0.5s ease}
+@keyframes cardIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+.card:active{transform:scale(0.95)}
+.card .img{width:100%;height:170px;object-fit:cover;background:#f0e6ff;transition:transform 0.5s}
+.card:hover .img{transform:scale(1.05)}
+.card .info{padding:12px}
+.card .name{font-size:12px;font-weight:700;margin:5px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#333}
+.card .price-row{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap}
+.card .price{color:var(--red);font-weight:800;font-size:16px}
 .card .mrp{text-decoration:line-through;color:var(--gray);font-size:11px}
-.card .discount{background:#e8f5e9;color:#4caf50;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700}
-.card .rating{font-size:11px;color:var(--gold);font-weight:600}
-.card button{width:100%;margin-top:8px;padding:8px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.3s}
-.card button:active{transform:scale(0.95)}
-.profile-card{background:#fff;padding:25px;border-radius:20px;text-align:center;margin-bottom:12px;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
-.avatar{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 15px;font-weight:700}
-.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 25px;border-radius:25px;font-size:13px;display:none;z-index:999;box-shadow:0 4px 15px rgba(0,0,0,0.3)}
-.cart-item{background:#fff;padding:12px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
-.cart-item .remove-btn{background:#f44336;color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-weight:bold;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;padding:8px;box-shadow:0 -4px 15px rgba(0,0,0,0.1);z-index:100;gap:5px}
-.bn-item{flex:1;text-align:center;cursor:pointer;font-size:11px;color:var(--gray);padding:5px;border-radius:10px;transition:all 0.3s}
+.card .discount{background:#e8f5e9;color:#4caf50;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:800}
+.card .rating{font-size:11px;color:var(--gold);font-weight:700}
+.card .delivery{font-size:10px;color:var(--green);font-weight:600;margin-top:2px}
+.card button{width:100%;margin-top:8px;padding:9px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.3s;box-shadow:0 3px 10px rgba(108,59,209,0.3)}
+.card button:active{transform:scale(0.93);box-shadow:none}
+.card button.added{background:#4caf50}
+.profile-card{background:#fff;padding:25px;border-radius:20px;text-align:center;margin-bottom:12px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+.avatar{width:75px;height:75px;border-radius:50%;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 15px;font-weight:800;box-shadow:0 4px 15px rgba(108,59,209,0.4)}
+.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 25px;border-radius:30px;font-size:13px;display:none;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.3);animation:toastIn 0.3s ease}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.cart-item{background:#fff;padding:14px;border-radius:15px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);animation:slideIn 0.3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+.cart-item .remove-btn{background:#f44336;color:#fff;border:none;border-radius:50%;width:30px;height:30px;font-weight:800;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:transform 0.2s}
+.cart-item .remove-btn:active{transform:scale(0.85)}
+.qty-btn{background:#f0e6ff;color:#6c3bd1;border:none;border-radius:50%;width:28px;height:28px;font-weight:800;cursor:pointer;font-size:14px;transition:transform 0.2s}
+.qty-btn:active{transform:scale(0.85)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;padding:8px;box-shadow:0 -4px 20px rgba(0,0,0,0.1);z-index:100;gap:5px}
+.bn-item{flex:1;text-align:center;cursor:pointer;font-size:10px;color:var(--gray);padding:5px;border-radius:10px;transition:all 0.3s;position:relative}
 .bn-item.active{background:#f0e6ff;color:var(--primary);font-weight:700}
 .bn-icon{font-size:22px;display:block;margin-bottom:2px}
+.bn-item .badge{position:absolute;top:0;right:15%;background:#f44336;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:10px;display:none}
 .login-box{background:#fff;padding:30px;border-radius:20px;text-align:center;margin:20px 0;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
-.login-box h3{margin-bottom:5px;color:#333}
+.login-box h3{margin-bottom:5px;color:#333;font-size:18px}
 .login-box p{font-size:13px;color:var(--gray);margin-bottom:15px}
 .login-box input{width:100%;padding:14px;border:2px solid #e0d5f5;border-radius:12px;margin:10px 0;font-size:16px;text-align:center;outline:none;transition:all 0.3s}
-.login-box input:focus{border-color:var(--primary)}
-.login-box button{width:100%;padding:14px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer;box-shadow:0 4px 15px rgba(108,59,209,0.3)}
-.loading{text-align:center;padding:30px;color:var(--gray);grid-column:span 2;font-size:14px}
+.login-box input:focus{border-color:var(--primary);box-shadow:0 4px 15px rgba(108,59,209,0.15)}
+.login-box button{width:100%;padding:14px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer;box-shadow:0 4px 15px rgba(108,59,209,0.3);transition:transform 0.2s}
+.login-box button:active{transform:scale(0.95)}
+.loading{text-align:center;padding:30px;color:var(--gray);grid-column:span 2;font-size:14px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
 .order-card{background:#fff;padding:15px;border-radius:15px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
-.load-more{width:100%;padding:14px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:15px;font-weight:700;cursor:pointer;margin-top:12px;font-size:14px;box-shadow:0 4px 15px rgba(108,59,209,0.3)}
+.load-more{width:100%;padding:14px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:15px;font-weight:700;cursor:pointer;margin-top:12px;font-size:14px;box-shadow:0 4px 15px rgba(108,59,209,0.3);transition:transform 0.2s}
+.load-more:active{transform:scale(0.95)}
 .empty-state{text-align:center;padding:40px 20px;color:var(--gray)}
-.empty-state .icon{font-size:60px;margin-bottom:15px}
+.empty-state .icon{font-size:60px;margin-bottom:15px;animation:float 2s infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.payment-box{background:#fff;padding:20px;border-radius:15px;margin:10px 0;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
+.payment-box .title{font-weight:800;font-size:15px;margin-bottom:10px;color:#333}
+.payment-box .row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;color:#555}
+.payment-box .total-row{display:flex;justify-content:space-between;font-weight:800;font-size:16px;padding:10px 0;border-top:2px dashed #ddd;margin-top:5px;color:#333}
 </style>
 </head>
 <body>
-<div class="header"><h2>🛍️ Meesho Store</h2><span id="loginStatus">🔒 Guest</span></div>
+<div class="header">
+<h2>🛍️ Meesho Store</h2>
+<div class="right"><span class="status" id="loginStatus">🔒 Guest</span></div>
+</div>
 <div class="search"><input type="text" id="searchInput" placeholder="🔍 Search kurti, saree, shoes..." onkeypress="if(event.key==='Enter')searchProducts()"><button onclick="searchProducts()">🔍</button></div>
 <div class="nav">
 <div class="nav-item active" onclick="switchTab('home')">🏠 Home</div>
 <div class="nav-item" onclick="switchTab('login')">📱 Login</div>
-<div class="nav-item" onclick="switchTab('cart')">🛒 Cart</div>
+<div class="nav-item" onclick="switchTab('cart')">🛒 Cart<span class="badge" id="cartBadge"></span></div>
 <div class="nav-item" onclick="switchTab('orders')">📦 Orders</div>
 <div class="nav-item" onclick="switchTab('profile')">👤 Profile</div>
 </div>
 
-<div class="page active" id="page-home"><div class="products" id="productsGrid"><div class="loading">Loading products...</div></div><button class="load-more" id="loadMoreBtn" onclick="loadMore()" style="display:none">⬇️ Load More Products</button></div>
+<div class="page active" id="page-home"><div class="products" id="productsGrid"><div class="loading">🔄 Loading products...</div></div><button class="load-more" id="loadMoreBtn" onclick="loadMore()" style="display:none">⬇️ Load More Products</button></div>
 
 <div class="page" id="page-login">
 <div class="login-box" id="loginForm">
@@ -92,7 +117,7 @@ body{background:var(--bg);min-height:100vh;padding-bottom:70px}
 <div class="bottom-nav">
 <div class="bn-item active" onclick="switchTab('home')"><span class="bn-icon">🏠</span>Home</div>
 <div class="bn-item" onclick="switchTab('login')"><span class="bn-icon">📱</span>Login</div>
-<div class="bn-item" onclick="switchTab('cart')"><span class="bn-icon">🛒</span>Cart</div>
+<div class="bn-item" onclick="switchTab('cart')"><span class="bn-icon">🛒</span>Cart<span class="badge" id="bnCartBadge"></span></div>
 <div class="bn-item" onclick="switchTab('orders')"><span class="bn-icon">📦</span>Orders</div>
 <div class="bn-item" onclick="switchTab('profile')"><span class="bn-icon">👤</span>Profile</div>
 </div>
@@ -107,6 +132,7 @@ let ordersData=JSON.parse(localStorage.getItem('meesho_orders')||'[]');
 let currentQuery='trending';let currentPage=1;let allProducts=[];let phoneNumber=null;
 
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2000)}
+function updateCartBadge(){const count=cartData.reduce((s,i)=>s+i.quantity,0);const badges=document.querySelectorAll('.badge');badges.forEach(b=>{if(count>0){b.textContent=count;b.style.display='block';}else{b.style.display='none';}})}
 function switchTab(tab){
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -135,14 +161,15 @@ grid.innerHTML='<div class="empty-state"><div class="icon">😕</div>No products
 document.getElementById('loadMoreBtn').style.display='none';
 }
 })
-.catch(err=>{grid.innerHTML='<div class="empty-state"><div class="icon">⚠️</div>Server error. Try again.</div>'});
+.catch(err=>{grid.innerHTML='<div class="empty-state"><div class="icon">⚠️</div>Server error</div>'});
 }
 
 function renderProducts(list){
 const grid=document.getElementById('productsGrid');
 grid.innerHTML=list.map(p=>{
 const discount=Math.round((1-p.price/p.mrp)*100);
-return '<div class="card"><img class="img" src="'+p.image+'" alt="'+p.name+'" onerror="this.src=\'https://picsum.photos/300/400?random='+Math.floor(Math.random()*100)+'\'"><div class="info"><div class="name">'+p.name+'</div><div class="price-row"><span class="price">₹'+p.price+'</span><span class="mrp">₹'+p.mrp+'</span>'+(discount>0?'<span class="discount">'+discount+'% OFF</span>':'')+'</div><div class="rating">⭐ '+p.rating+'</div><button onclick="addToCart(\''+p.id+'\',\''+p.name.replace(/'/g,'')+'\','+p.price+',\''+p.image+'\')">🛒 Add to Cart</button></div></div>';
+const inCart=cartData.find(c=>c.id===p.id);
+return '<div class="card"><img class="img" src="'+p.image+'" alt="'+p.name+'" onerror="this.src=\'https://picsum.photos/300/400?random='+Math.floor(Math.random()*100)+'\'"><div class="info"><div class="name">'+p.name+'</div><div class="price-row"><span class="price">₹'+p.price+'</span><span class="mrp">₹'+p.mrp+'</span>'+(discount>0?'<span class="discount">'+discount+'% OFF</span>':'')+'</div><div class="rating">⭐ '+p.rating+'</div><div class="delivery">🚚 Free Delivery</div><button class="'+(inCart?'added':'')+'" onclick="addToCart(\''+p.id+'\',\''+p.name.replace(/'/g,'')+'\','+p.price+',\''+p.image+'\')">'+(inCart?'✅ Added':'🛒 Add to Cart')+'</button></div></div>';
 }).join('');
 }
 
@@ -153,12 +180,15 @@ function addToCart(id,name,price,image){
 const e=cartData.find(c=>c.id===id);
 if(e){e.quantity++;}else{cartData.push({id:id,name:name,price:price,image:image,quantity:1});}
 localStorage.setItem('meesho_cart',JSON.stringify(cartData));
-showToast('✅ Added to cart!');
+updateCartBadge();
+showToast('✅ '+name+' added!');
+renderProducts(allProducts);
 }
 
 function removeFromCart(id){
 cartData=cartData.filter(c=>c.id!==id);
 localStorage.setItem('meesho_cart',JSON.stringify(cartData));
+updateCartBadge();
 renderCart();
 showToast('🗑️ Removed from cart');
 }
@@ -169,6 +199,7 @@ if(item){
 item.quantity+=delta;
 if(item.quantity<=0){removeFromCart(id);return;}
 localStorage.setItem('meesho_cart',JSON.stringify(cartData));
+updateCartBadge();
 renderCart();
 }
 }
@@ -179,25 +210,44 @@ if(cartData.length===0){c.innerHTML='<div class="empty-state"><div class="icon">
 let total=0;
 c.innerHTML=cartData.map(i=>{
 total+=i.price*i.quantity;
-return '<div class="cart-item"><div style="flex:1"><strong style="font-size:13px">'+i.name+'</strong><div style="font-size:12px;color:#888;margin:3px 0">₹'+i.price+'</div><div style="display:flex;align-items:center;gap:8px"><button onclick="updateQty(\''+i.id+'\',-1)" style="background:#f0e6ff;color:#6c3bd1;border:none;border-radius:50%;width:25px;height:25px;font-weight:bold;cursor:pointer">-</button><span style="font-weight:700">'+i.quantity+'</span><button onclick="updateQty(\''+i.id+'\',1)" style="background:#f0e6ff;color:#6c3bd1;border:none;border-radius:50%;width:25px;height:25px;font-weight:bold;cursor:pointer">+</button></div></div><div style="text-align:right"><strong>₹'+(i.price*i.quantity)+'</strong><br><button class="remove-btn" onclick="removeFromCart(\''+i.id+'\')" style="margin-top:8px">✕</button></div></div>';
-}).join('')+'<div class="cart-item" style="background:#f0e6ff"><strong>Total</strong><strong style="color:#6c3bd1;font-size:18px">₹'+total+'</strong></div><button onclick="checkout()" style="width:100%;padding:15px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:15px;font-weight:700;font-size:16px;margin-top:10px;cursor:pointer;box-shadow:0 4px 15px rgba(108,59,209,0.3)">🛍️ Place Order (₹'+total+')</button>';
+return '<div class="cart-item"><img src="'+i.image+'" style="width:50px;height:60px;border-radius:8px;object-fit:cover;margin-right:10px" onerror="this.style.display=\'none\'"><div style="flex:1"><strong style="font-size:12px">'+i.name+'</strong><div style="font-size:12px;color:#e91e63;font-weight:700;margin:3px 0">₹'+i.price+'</div><div style="display:flex;align-items:center;gap:8px"><button class="qty-btn" onclick="updateQty(\''+i.id+'\',-1)">−</button><span style="font-weight:700">'+i.quantity+'</span><button class="qty-btn" onclick="updateQty(\''+i.id+'\',1)">+</button></div></div><div style="text-align:right"><strong>₹'+(i.price*i.quantity)+'</strong><br><button class="remove-btn" onclick="removeFromCart(\''+i.id+'\')" style="margin-top:8px">✕</button></div></div>';
+}).join('')+'<div class="cart-item" style="background:#f0e6ff"><strong>Total</strong><strong style="color:#6c3bd1;font-size:18px">₹'+total+'</strong></div><button onclick="checkout()" style="width:100%;padding:15px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:15px;font-weight:700;font-size:16px;margin-top:10px;cursor:pointer;box-shadow:0 4px 15px rgba(108,59,209,0.3)">🛍️ Proceed to Checkout</button>';
 }
 
 function checkout(){
 if(!accountData){showToast('❌ Pehle login karo');switchTab('profile');return}
 if(cartData.length===0){showToast('❌ Cart empty');return}
-const order={id:Date.now(),items:cartData,total:cartData.reduce((s,i)=>s+i.price*i.quantity,0),phone:accountData.phone,status:'✅ Confirmed',date:new Date().toLocaleString('en-IN')};
-ordersData.push(order);
-localStorage.setItem('meesho_orders',JSON.stringify(ordersData));
-cartData=[];localStorage.removeItem('meesho_cart');
-showToast('🎉 Order placed successfully!');
-switchTab('orders');
+const subtotal=cartData.reduce((s,i)=>s+i.price*i.quantity,0);
+const deliveryFee=subtotal<500?50:0;
+const codFee=20;
+const upiDiscount=Math.round(subtotal*0.1);
+const codTotal=subtotal+deliveryFee+codFee;
+const upiTotal=subtotal+deliveryFee-upiDiscount;
+const c=document.getElementById('cartContent');
+c.innerHTML='<div class="payment-box"><div class="title">💳 Payment Options</div><div class="row"><span>Subtotal</span><span>₹'+subtotal+'</span></div><div class="row"><span>Delivery Fee</span><span>'+(deliveryFee===0?'<span style="color:#4caf50;font-weight:700">FREE</span>':'₹'+deliveryFee)+'</span></div></div><div class="payment-box" style="background:#f0e6ff;border:2px solid #9c27b0"><div class="title" style="color:#6c3bd1">📱 UPI (Prepaid)</div><div class="row"><span>UPI Discount</span><span style="color:#4caf50;font-weight:700">-₹'+upiDiscount+'</span></div><div class="total-row"><span>Total Pay</span><span style="color:#6c3bd1">₹'+upiTotal+'</span></div><button onclick="payUPI('+upiTotal+')" style="width:100%;padding:14px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:15px;margin-top:10px;cursor:pointer">📱 Pay ₹'+upiTotal+' via UPI</button></div><div class="payment-box" style="background:#fff3e0;border:2px solid #ff9800"><div class="title" style="color:#ff9800">💵 Cash on Delivery</div><div class="row"><span>COD Fee</span><span>₹'+codFee+'</span></div><div class="total-row"><span>Total Pay</span><span style="color:#ff9800">₹'+codTotal+'</span></div><button onclick="placeCOD('+codTotal+')" style="width:100%;padding:14px;background:#ff9800;color:#fff;border:none;border-radius:12px;font-weight:700;font-size:15px;margin-top:10px;cursor:pointer">💵 Place COD Order (₹'+codTotal+')</button></div><button onclick="renderCart()" style="width:100%;padding:10px;background:#eee;color:#555;border:none;border-radius:10px;font-weight:600;margin-top:10px;cursor:pointer">⬅️ Back to Cart</button>';
+}
+
+function payUPI(amount){
+const upiLink='upi://pay?pa=merchant@upi&pn=Meesho Store&am='+amount+'&cu=INR';
+tg.openLink(upiLink);
+showToast('📱 UPI app khul raha...');
+const order={id:Date.now(),items:cartData,total:amount,phone:accountData.phone,status:'⏳ Payment Pending',date:new Date().toLocaleString('en-IN'),payment:'UPI'};
+ordersData.push(order);localStorage.setItem('meesho_orders',JSON.stringify(ordersData));
+cartData=[];localStorage.removeItem('meesho_cart');updateCartBadge();
+setTimeout(()=>{switchTab('orders');},2000);
+}
+
+function placeCOD(total){
+const order={id:Date.now(),items:cartData,total:total,phone:accountData.phone,status:'✅ Confirmed',date:new Date().toLocaleString('en-IN'),payment:'COD'};
+ordersData.push(order);localStorage.setItem('meesho_orders',JSON.stringify(ordersData));
+cartData=[];localStorage.removeItem('meesho_cart');updateCartBadge();
+showToast('🎉 COD Order placed!');switchTab('orders');
 }
 
 function renderOrders(){
 const c=document.getElementById('ordersContent');
-if(ordersData.length===0){c.innerHTML='<div class="empty-state"><div class="icon">📦</div>No orders yet</div>';return}
-c.innerHTML=ordersData.map(o=>'<div class="order-card"><div style="display:flex;justify-content:space-between;align-items:center"><strong>Order #'+o.id.toString().slice(-6)+'</strong><span style="color:#4caf50;font-weight:700">'+o.status+'</span></div><div style="font-size:12px;color:#888;margin:5px 0">📅 '+o.date+'</div><div style="font-size:13px;font-weight:600">'+o.items.length+' items | ₹'+o.total+'</div><div style="font-size:12px;color:#888;margin-top:3px">📱 +91'+o.phone+'</div></div>').join('');
+if(ordersData.length===0){c.innerHTML='<div class="empty-state"><div class="icon">📦</div>No orders yet<br><small style="color:#aaa">Shopping karo!</small></div>';return}
+c.innerHTML=ordersData.map(o=>'<div class="order-card"><div style="display:flex;justify-content:space-between;align-items:center"><strong>Order #'+o.id.toString().slice(-6)+'</strong><span style="font-weight:700;color:'+(o.payment==='COD'?'#4caf50':'#ff9800')+'">'+o.status+'</span></div><div style="font-size:12px;color:#888;margin:5px 0">📅 '+o.date+'</div><div style="font-size:13px;font-weight:600">'+o.items.length+' items | ₹'+o.total+'</div><div style="font-size:11px;color:#888;margin-top:3px">💳 '+o.payment+' | 📱 +91'+o.phone+'</div></div>').join('');
 }
 
 function sendOTP(){
@@ -220,14 +270,13 @@ document.getElementById('loginForm').style.display='block';
 document.getElementById('otpForm').style.display='none';
 document.getElementById('phoneInput').value='';
 document.getElementById('otpInput').value='';
-showToast('✅ Login successful!');
-switchTab('home');
+showToast('✅ Login successful!');switchTab('home');
 }
 
 function renderProfile(){
 const c=document.getElementById('profileContent');
 if(accountData){
-c.innerHTML='<div class="profile-card"><div class="avatar">'+accountData.phone[0]+'</div><h3 style="color:#333">+91'+accountData.phone+'</h3><p style="color:#6c3bd1;font-weight:700;margin-top:5px">✅ Logged In</p><p style="color:#888;font-size:12px;margin-top:5px">User ID: '+accountData.user_id+'</p><div style="display:flex;gap:10px;margin-top:20px;justify-content:center"><button onclick="switchTab(\'orders\')" style="padding:12px 25px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer">📦 My Orders</button><button onclick="logout()" style="padding:12px 25px;background:#f44336;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer">Logout</button></div></div>';
+c.innerHTML='<div class="profile-card"><div class="avatar">'+accountData.phone[0]+'</div><h3 style="color:#333">+91'+accountData.phone+'</h3><p style="color:#6c3bd1;font-weight:700;margin-top:5px">✅ Logged In</p><p style="color:#888;font-size:12px;margin-top:5px">User ID: '+accountData.user_id+'</p><div style="display:flex;gap:10px;margin-top:20px;justify-content:center"><button onclick="switchTab(\'orders\')" style="padding:12px 25px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer">📦 My Orders ('+ordersData.length+')</button><button onclick="logout()" style="padding:12px 25px;background:#f44336;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer">Logout</button></div></div>';
 }else{
 c.innerHTML='<div class="profile-card"><div class="avatar">👤</div><h3 style="color:#333">Guest</h3><p style="color:#888;margin-top:5px">Login nahi hua</p><button onclick="switchTab(\'login\')" style="margin-top:20px;padding:12px 30px;background:linear-gradient(135deg,#9c27b0,#6c3bd1);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:15px">📱 Login Karo</button></div>';
 }
@@ -235,8 +284,7 @@ c.innerHTML='<div class="profile-card"><div class="avatar">👤</div><h3 style="
 
 function logout(){accountData=null;localStorage.removeItem('meesho_account');updateLoginStatus();renderProfile();showToast('👋 Logged out')}
 
-updateLoginStatus();
-fetchProducts('trending',1);
+updateLoginStatus();updateCartBadge();fetchProducts('trending',1);
 </script>
 </body>
 </html>
